@@ -117,4 +117,143 @@ public class SimpleTimeZone extends TimeZone {
     public boolean useDaylightTime() {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Sets the rule which specifies the start of daylight savings time.
+     *
+     * @param month
+     *            the {@code Calendar} month in which daylight savings time starts.
+     * @param dayOfMonth
+     *            the {@code Calendar} day of the month on which daylight savings time
+     *            starts.
+     * @param time
+     *            the time of day in milliseconds on which daylight savings time
+     *            starts.
+     */
+    public void setStartRule(final int month,
+                             final int dayOfMonth,
+                             final int time) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Sets the rule which specifies the start of daylight savings time.
+     *
+     * @param month
+     *            the {@code Calendar} month in which daylight savings time starts.
+     * @param day
+     *            the occurrence of the day of the week on which daylight
+     *            savings time starts.
+     * @param dayOfWeek
+     *            the {@code Calendar} day of the week on which daylight savings time
+     *            starts.
+     * @param time
+     *            the time of day in milliseconds on which daylight savings time
+     *            starts.
+     */
+    public void setStartRule(final int month,
+                             final int day,
+                             final int dayOfWeek,
+                             final int time) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Sets the rule which specifies the start of daylight savings time.
+     *
+     * @param month
+     *            the {@code Calendar} month in which daylight savings time starts.
+     * @param day
+     *            the {@code Calendar} day of the month.
+     * @param dayOfWeek
+     *            the {@code Calendar} day of the week on which daylight savings time
+     *            starts.
+     * @param time
+     *            the time of day in milliseconds on which daylight savings time
+     *            starts.
+     * @param after
+     *            selects the day after or before the day of month.
+     */
+    public void setStartRule(final int month,
+                             final int day,
+                             final int dayOfWeek,
+                             final int time,
+                             final boolean after) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Sets the starting year for daylight savings time in this {@code SimpleTimeZone}.
+     * Years before this start year will always be in standard time.
+     *
+     * @param year
+     *            the starting year.
+     */
+    public void setStartYear(final int year) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Sets the rule which specifies the end of daylight savings time.
+     *
+     * @param month
+     *            the {@code Calendar} month in which daylight savings time ends.
+     * @param dayOfMonth
+     *            the {@code Calendar} day of the month on which daylight savings time
+     *            ends.
+     * @param time
+     *            the time of day in milliseconds standard time on which
+     *            daylight savings time ends.
+     */
+    public void setEndRule(final int month,
+                           final int dayOfMonth,
+                           final int time) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Sets the rule which specifies the end of daylight savings time.
+     *
+     * @param month
+     *            the {@code Calendar} month in which daylight savings time ends.
+     * @param day
+     *            the occurrence of the day of the week on which daylight
+     *            savings time ends.
+     * @param dayOfWeek
+     *            the {@code Calendar} day of the week on which daylight savings time
+     *            ends.
+     * @param time
+     *            the time of day in milliseconds standard time on which
+     *            daylight savings time ends.
+     */
+    public void setEndRule(final int month,
+                           final int day,
+                           final int dayOfWeek,
+                           final int time) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Sets the rule which specifies the end of daylight savings time.
+     *
+     * @param month
+     *            the {@code Calendar} month in which daylight savings time ends.
+     * @param day
+     *            the {@code Calendar} day of the month.
+     * @param dayOfWeek
+     *            the {@code Calendar} day of the week on which daylight savings time
+     *            ends.
+     * @param time
+     *            the time of day in milliseconds on which daylight savings time
+     *            ends.
+     * @param after
+     *            selects the day after or before the day of month.
+     */
+    public void setEndRule(final int month,
+                           final int day,
+                           final int dayOfWeek,
+                           final int time,
+                           final boolean after) {
+        throw new UnsupportedOperationException();
+    }
 }
