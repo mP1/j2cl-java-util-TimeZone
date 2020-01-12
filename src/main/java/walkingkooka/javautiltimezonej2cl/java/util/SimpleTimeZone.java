@@ -17,6 +17,8 @@
 
 package walkingkooka.javautiltimezonej2cl.java.util;
 
+import java.util.Date;
+
 public class SimpleTimeZone extends TimeZone {
 
     public SimpleTimeZone(final int offset,
@@ -84,5 +86,35 @@ public class SimpleTimeZone extends TimeZone {
                 endDayOfWeek,
                 endTime,
                 daylightSavings);
+    }
+
+    @Override
+    public int getOffset(final int era,
+                         final int year,
+                         final int month,
+                         final int day,
+                         final int dayOfWeek,
+                         final int time) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getRawOffset() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean inDaylightTime(Date time) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setRawOffset(int offset) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean useDaylightTime() {
+        throw new UnsupportedOperationException();
     }
 }
