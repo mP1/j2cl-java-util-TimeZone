@@ -17,8 +17,11 @@
 
 package walkingkooka.javautiltimezonej2cl.java.util;
 
+import walkingkooka.collect.set.Sets;
+
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class TimeZone {
 
@@ -41,7 +44,7 @@ public abstract class TimeZone {
      * @return an array of time zone ID strings.
      */
     public static synchronized String[] getAvailableIDs() {
-        throw new UnsupportedOperationException();
+        return SimpleTimeZone.getAvailableIDs0();
     }
 
     /**
