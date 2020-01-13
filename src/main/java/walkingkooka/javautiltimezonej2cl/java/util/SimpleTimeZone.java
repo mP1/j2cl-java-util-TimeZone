@@ -20,7 +20,7 @@ package walkingkooka.javautiltimezonej2cl.java.util;
 import java.util.Date;
 import java.util.Objects;
 
-public class SimpleTimeZone extends TimeZone {
+public final class SimpleTimeZone extends TimeZone {
 
     SimpleTimeZone(final int offset,
                    final String name) {
