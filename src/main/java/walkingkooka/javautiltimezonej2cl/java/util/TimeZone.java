@@ -174,7 +174,7 @@ public abstract class TimeZone {
      * @return {@code true} when the {@code TimeZone} have the same raw offset, {@code false}
      * otherwise.
      */
-    public boolean hasSameRules(final TimeZone other) {
+    public final boolean hasSameRules(final TimeZone other) {
         return null != other && this.getRawOffset() == other.getRawOffset();
     }
 
