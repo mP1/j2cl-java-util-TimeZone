@@ -65,6 +65,36 @@ public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
         assertEquals(offset, timeZone.getRawOffset(), "rawOffset");
     }
 
+    // hasSameRules......................................................................................................
+
+    @Test
+    public void testHasSameRules() {
+        final java.util.SimpleTimeZone jre = new java.util.SimpleTimeZone(OFFSET, NAME);
+        final SimpleTimeZone emulated = new SimpleTimeZone(OFFSET, NAME);
+
+        assertEquals(jre.hasSameRules(jre),
+                emulated.hasSameRules(emulated),
+                () -> jre.toString());
+    }
+
+    @Test
+    public void testHasSameRulesDifferentOffset() {
+        assertEquals(new java.util.SimpleTimeZone(OFFSET, NAME).hasSameRules(new java.util.SimpleTimeZone(OFFSET + 1, NAME)),
+                new SimpleTimeZone(OFFSET, NAME).hasSameRules(new SimpleTimeZone(OFFSET + 1, NAME)));
+    }
+
+    @Test
+    public void testHasSameRulesDifferentName() {
+        assertEquals(new java.util.SimpleTimeZone(OFFSET, NAME).hasSameRules(new java.util.SimpleTimeZone(OFFSET + 1, NAME)),
+                new SimpleTimeZone(OFFSET, NAME).hasSameRules(new SimpleTimeZone(OFFSET + 1, NAME)));
+    }
+
+    @Test
+    public void testHasSameRulesDifferentStartMonth() {
+        assertEquals(new java.util.SimpleTimeZone(OFFSET, NAME, START_MONTH, 0, 0, 0, 0, 0, 0, 0).hasSameRules(new java.util.SimpleTimeZone(OFFSET + 1, NAME)),
+                new SimpleTimeZone(OFFSET, NAME, START_MONTH, 0, 0, 0, 0, 0, 0, 0).hasSameRules(new SimpleTimeZone(OFFSET + 1, NAME)));
+    }
+
     // equals.............................................................................................................
 
     @Test
