@@ -73,8 +73,11 @@ public abstract class TimeZone {
 
     // ctor.............................................................................................................
 
-    TimeZone() {
+    TimeZone(final String id,
+             final int rawOffset) {
         super();
+        this.id = id;
+        this.rawOffset = rawOffset;
     }
 
 
@@ -87,17 +90,7 @@ public abstract class TimeZone {
         return id;
     }
 
-    /**
-     * Sets the ID of this {@code TimeZone}.
-     *
-     * @param id a string which is the time zone ID.
-     */
-    public void setID(final String id) {
-        Objects.requireNonNull(id, "id");
-        this.id = id;
-    }
-
-    private String id;
+    private final String id;
 
     /**
      * Gets the daylight savings offset in milliseconds for this {@code TimeZone}.
@@ -156,6 +149,11 @@ public abstract class TimeZone {
     abstract public int getRawOffset();
 
     /**
+     * The raw offset.
+     */
+    final int rawOffset;
+
+    /**
      * Gets the {@code TimeZone} with the specified ID.
      *
      * @param name a time zone string ID.
@@ -187,13 +185,6 @@ public abstract class TimeZone {
      * otherwise.
      */
     abstract public boolean inDaylightTime(Date time);
-
-    /**
-     * Sets the offset for standard time from GMT for this {@code TimeZone}.
-     *
-     * @param offset the offset from GMT in milliseconds.
-     */
-    abstract public void setRawOffset(int offset);
 
     /**
      * Returns whether this {@code TimeZone} has a daylight savings time period.
