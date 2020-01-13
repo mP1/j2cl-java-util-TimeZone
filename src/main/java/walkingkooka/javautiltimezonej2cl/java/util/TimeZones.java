@@ -24,7 +24,7 @@ final class TimeZones {
     private static final int HALF_HOUR = 1800000;
     static final int ONE_HOUR = HALF_HOUR * 2;
 
-    public static TimeZone[] getTimeZones() {
+    static TimeZone[] getTimeZones() {
         return new TimeZone[]{
                 new SimpleTimeZone(-11 * ONE_HOUR, "MIT"), //$NON-NLS-1$
                 new SimpleTimeZone(-10 * ONE_HOUR, "HST"), //$NON-NLS-1$
