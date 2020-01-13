@@ -22,6 +22,8 @@ import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
         HashCodeEqualsDefinedTesting2<SimpleTimeZone> {
 
@@ -45,6 +47,22 @@ public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
 
     @Test
     public void testIfClassIsFinalIfAllConstructorsArePrivate() {
+    }
+
+    // new.............................................................................................................
+
+    @Test
+    public void testNewIdOffset() {
+        this.checkIdAndOffset(new SimpleTimeZone(OFFSET, NAME),
+                NAME,
+                OFFSET);
+    }
+
+    private void checkIdAndOffset(final SimpleTimeZone timeZone,
+                                  final String id,
+                                  final int offset) {
+        assertEquals(id, timeZone.getID(), "id");
+        assertEquals(offset, timeZone.getRawOffset(), "rawOffset");
     }
 
     // equals.............................................................................................................

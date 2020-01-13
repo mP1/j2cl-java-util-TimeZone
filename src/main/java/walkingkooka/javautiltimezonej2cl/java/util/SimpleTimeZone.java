@@ -125,11 +125,6 @@ public final class SimpleTimeZone extends TimeZone {
     }
 
     @Override
-    public int getRawOffset() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean inDaylightTime(Date time) {
         throw new UnsupportedOperationException();
     }

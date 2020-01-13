@@ -146,7 +146,9 @@ public abstract class TimeZone {
      *
      * @return the offset from GMT in milliseconds.
      */
-    abstract public int getRawOffset();
+    public final int getRawOffset() {
+        return this.rawOffset;
+    }
 
     /**
      * The raw offset.
