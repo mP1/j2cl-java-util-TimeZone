@@ -90,7 +90,7 @@ public abstract class TimeZone {
         return id;
     }
 
-    private final String id;
+    final String id;
 
     /**
      * Gets the daylight savings offset in milliseconds for this {@code TimeZone}.
