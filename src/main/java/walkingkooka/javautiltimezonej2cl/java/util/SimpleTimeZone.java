@@ -18,6 +18,7 @@
 package walkingkooka.javautiltimezonej2cl.java.util;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class SimpleTimeZone extends TimeZone {
 
@@ -151,4 +152,44 @@ public class SimpleTimeZone extends TimeZone {
     private final int endTimeMode;
 
     private final int daylightSavings;
+
+
+    // Object ..........................................................................................................
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id,
+                this.rawOffset,
+                this.startMonth,
+                this.startDay,
+                this.startDayOfWeek,
+                this.startTime,
+                this.startTimeMode,
+                this.endMonth,
+                this.endDay,
+                this.endDayOfWeek,
+                this.endTime,
+                this.endTimeMode);
+    }
+
+    @Override
+    public final boolean equals(final Object other) {
+        return this == other || other instanceof SimpleTimeZone && this.equals0((SimpleTimeZone) other);
+    }
+
+    private boolean equals0(final SimpleTimeZone other) {
+        return this.id.equals(other.id) &&
+                this.rawOffset == other.rawOffset &&
+                this.startMonth == other.startMonth &&
+                this.startDay == other.startDay &&
+                this.startDayOfWeek == other.startDayOfWeek &&
+                this.startTime == other.startTime &&
+                this.startTimeMode == other.startTimeMode &&
+                this.endMonth == other.endMonth &&
+                this.endDay == other.endDay &&
+                this.endDayOfWeek == other.endDayOfWeek &&
+                this.endTime == other.endTime &&
+                this.endTimeMode == other.endTimeMode &&
+                this.daylightSavings == other.daylightSavings;
+    }
 }
