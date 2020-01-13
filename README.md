@@ -19,6 +19,9 @@ is available to the runtime as `java.util.TimeZone` and something similar for `w
 
 ## Removed functionality
 
+- Sub classing of `TimeZone` not supported.
+- `SimpleTimeZone` ctors package private preventing creation with custom values.
+
 
 
 ### Serialization
