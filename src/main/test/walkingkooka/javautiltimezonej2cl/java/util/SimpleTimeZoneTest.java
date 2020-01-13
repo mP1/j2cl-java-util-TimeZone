@@ -39,6 +39,14 @@ public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
     private final static int END_TIME_MODE = 5;
     private final static int DAYLIGHT_SAVING = 1;
 
+    @Test
+    public void testAllConstructorsVisibility() {
+    }
+
+    @Test
+    public void testIfClassIsFinalIfAllConstructorsArePrivate() {
+    }
+
     // equals.............................................................................................................
 
     @Test
