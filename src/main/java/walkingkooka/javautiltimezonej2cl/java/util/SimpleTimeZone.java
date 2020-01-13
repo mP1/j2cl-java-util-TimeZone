@@ -17,10 +17,27 @@
 
 package walkingkooka.javautiltimezonej2cl.java.util;
 
+import walkingkooka.collect.set.Sets;
+
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 public final class SimpleTimeZone extends TimeZone {
+
+    static synchronized String[] getAvailableIDs0() {
+        return ALL.stream()
+                .map(TimeZone::getID)
+                .distinct()
+                .sorted()
+                .toArray(String[]::new);
+    }
+
+    private final static Set<TimeZone> ALL = Sets.ordered();
+
+    static {
+        TimeZones.getTimeZones();
+    }
 
     SimpleTimeZone(final int offset,
                    final String name) {
@@ -112,6 +129,8 @@ public final class SimpleTimeZone extends TimeZone {
         this.endTimeMode = endTimeMode;
 
         this.daylightSavings = daylightSavings;
+
+        ALL.add(this);
     }
 
     @Override

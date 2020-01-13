@@ -17,10 +17,27 @@
 
 package walkingkooka.javautiltimezonej2cl.java.util;
 
+import org.junit.jupiter.api.Test;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public final class TimeZoneTest implements ClassTesting2<TimeZone> {
+
+    @Test
+    public void testGetAvailableIDs() {
+        final String[] ids = TimeZone.getAvailableIDs();
+        final Set<String> uniques = new HashSet<>(Arrays.asList(ids));
+
+        assertEquals(uniques.size(),
+                ids.length,
+                () -> "ids contains duplicates ");
+    }
 
     @Override
     public Class<TimeZone> type() {
