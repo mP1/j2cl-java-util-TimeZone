@@ -20,13 +20,11 @@ package walkingkooka.javautiltimezonej2cl.java.util;
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
 import walkingkooka.ToStringTesting;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
-        HashCodeEqualsDefinedTesting2<SimpleTimeZone>,
+public final class SimpleTimeZoneTest extends TimeZoneTestCase<SimpleTimeZone>
+        implements HashCodeEqualsDefinedTesting2<SimpleTimeZone>,
         ToStringTesting<SimpleTimeZone> {
 
     private final static int OFFSET = 1;
@@ -339,11 +337,6 @@ public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
     @Override
     public Class<SimpleTimeZone> type() {
         return SimpleTimeZone.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 
     // HashCodeEqualsDefinedTesting.....................................................................................
