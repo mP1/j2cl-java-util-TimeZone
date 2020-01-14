@@ -19,13 +19,15 @@ package walkingkooka.javautiltimezonej2cl.java.util;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
+import walkingkooka.ToStringTesting;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
-        HashCodeEqualsDefinedTesting2<SimpleTimeZone> {
+        HashCodeEqualsDefinedTesting2<SimpleTimeZone>,
+        ToStringTesting<SimpleTimeZone> {
 
     private final static int OFFSET = 1;
     private final static String NAME = "Paris";
@@ -316,6 +318,20 @@ public final class SimpleTimeZoneTest implements ClassTesting2<SimpleTimeZone>,
                 END_TIME,
                 END_TIME_MODE,
                 DAYLIGHT_SAVING + 1));
+    }
+
+    // ToString.........................................................................................................
+
+    @Test
+    public void testToString() {
+        this.toStringAndCheck(new SimpleTimeZone(0, "Abc123"),
+                "Abc123 daylightSavings=3600000");
+    }
+
+    @Test
+    public void testToString2() {
+        this.toStringAndCheck(this.createObject(),
+                "Paris offset=1 startMonth=1 startDay=2 startDayOfWeek=3 startTime=4 startTimeMode=5 endMonth=1 endDay=2 endDayOfWeek=3 endTime=4 endTimeMode=5 daylightSavings=1");
     }
 
     // ClassTesting2....................................................................................................

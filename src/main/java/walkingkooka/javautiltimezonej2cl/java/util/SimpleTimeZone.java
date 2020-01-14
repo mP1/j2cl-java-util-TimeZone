@@ -17,6 +17,8 @@
 
 package walkingkooka.javautiltimezonej2cl.java.util;
 
+import walkingkooka.ToStringBuilder;
+import walkingkooka.ToStringBuilderOption;
 import walkingkooka.collect.set.Sets;
 
 import java.util.Date;
@@ -205,5 +207,25 @@ public final class SimpleTimeZone extends TimeZone {
                 this.endTime == other.endTime &&
                 this.endTimeMode == other.endTimeMode &&
                 this.daylightSavings == other.daylightSavings;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.empty()
+                .disable(ToStringBuilderOption.QUOTE)
+                .value(this.id)
+                .label("offset").value(this.rawOffset)
+                .label("startMonth").value(this.startMonth)
+                .label("startDay").value(this.startDay)
+                .label("startDayOfWeek").value(this.startDayOfWeek)
+                .label("startTime").value(this.startTime)
+                .label("startTimeMode").value(this.startTimeMode)
+                .label("endMonth").value(this.endMonth)
+                .label("endDay").value(this.endDay)
+                .label("endDayOfWeek").value(this.endDayOfWeek)
+                .label("endTime").value(this.endTime)
+                .label("endTimeMode").value(this.endTimeMode)
+                .label("daylightSavings").value(this.daylightSavings)
+                .build();
     }
 }
