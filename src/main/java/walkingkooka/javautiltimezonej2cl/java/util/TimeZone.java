@@ -158,8 +158,12 @@ public abstract class TimeZone {
      * @param time the date in milliseconds since January 1, 1970 00:00:00 GMT
      * @return the offset from GMT in milliseconds.
      */
-    public int getOffset(long time) {
-        throw new UnsupportedOperationException();
+    public final int getOffset(final long time) {
+        final int offset = this.getRawOffset();
+
+        return this.inDaylightTime(new Date(time)) ?
+                offset + getDSTSavings() :
+                offset;
     }
 
     /**
