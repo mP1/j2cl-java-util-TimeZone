@@ -125,7 +125,7 @@ public abstract class TimeZone {
      *
      * @return the time zone ID string.
      */
-    public String getID() {
+    public final String getID() {
         return id;
     }
 
