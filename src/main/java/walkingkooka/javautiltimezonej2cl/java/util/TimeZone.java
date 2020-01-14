@@ -59,6 +59,17 @@ public abstract class TimeZone {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Gets the {@code TimeZone} with the specified ID.
+     *
+     * @param name a time zone string ID.
+     * @return the {@code TimeZone} with the specified ID or null if no {@code TimeZone} with
+     * the specified ID exists.
+     */
+    public static synchronized TimeZone getTimeZone(final String name) {
+        throw new UnsupportedOperationException();
+    }
+
     // default .........................................................................................................
 
     /**
@@ -157,17 +168,6 @@ public abstract class TimeZone {
      * The raw offset.
      */
     final int rawOffset;
-
-    /**
-     * Gets the {@code TimeZone} with the specified ID.
-     *
-     * @param name a time zone string ID.
-     * @return the {@code TimeZone} with the specified ID or null if no {@code TimeZone} with
-     * the specified ID exists.
-     */
-    public static synchronized TimeZone getTimeZone(String name) {
-        return null;
-    }
 
     /**
      * Returns whether the specified {@code TimeZone} has the same raw offset as this
