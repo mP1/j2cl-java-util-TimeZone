@@ -81,6 +81,15 @@ public abstract class TimeZone {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Sets the default time zone. If passed {@code null}, then the next
+     * time {@link #getDefault} is called, the default time zone will be
+     * determined. This behavior is slightly different than the canonical
+     * description of this method, but it follows the spirit of it.
+     *
+     * @param timezone
+     *            a {@code TimeZone} object.
+     */
     public static synchronized void setDefault(final TimeZone timezone) {
         throw new UnsupportedOperationException();
     }
