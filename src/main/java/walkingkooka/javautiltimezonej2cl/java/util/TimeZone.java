@@ -17,11 +17,10 @@
 
 package walkingkooka.javautiltimezonej2cl.java.util;
 
-import walkingkooka.collect.set.Sets;
+import walkingkooka.text.CharSequences;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 
 public abstract class TimeZone {
 
@@ -66,8 +65,8 @@ public abstract class TimeZone {
      * @return the {@code TimeZone} with the specified ID or null if no {@code TimeZone} with
      * the specified ID exists.
      */
-    public static synchronized TimeZone getTimeZone(final String name) {
-        throw new UnsupportedOperationException();
+    public static TimeZone getTimeZone(final String name) {
+        return SimpleTimeZone.getTimeZone0(name);
     }
 
     // default .........................................................................................................
