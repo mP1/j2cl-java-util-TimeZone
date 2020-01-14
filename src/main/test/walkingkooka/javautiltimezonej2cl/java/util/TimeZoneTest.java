@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class TimeZoneTest implements ClassTesting2<TimeZone> {
 
@@ -38,6 +39,27 @@ public final class TimeZoneTest implements ClassTesting2<TimeZone> {
                 ids.length,
                 () -> "ids contains duplicates ");
     }
+
+    // getTimeZone......................................................................................................
+
+    @Test
+    public void testGetTimeZoneNullFails() {
+        assertThrows(NullPointerException.class, () -> TimeZone.getTimeZone(null));
+    }
+
+    @Test
+    public void testGetTimeZoneUnknownNull() {
+        assertEquals(null, TimeZone.getTimeZone("unknown123"));
+    }
+
+    @Test
+    public void testGetTimeZone() {
+        final String hobart = "Australia/Hobart";
+        final TimeZone timeZone = TimeZone.getTimeZone(hobart);
+        assertEquals(hobart, timeZone.getID(), "id");
+    }
+
+    // ClassTesting......................................................................................................
 
     @Override
     public Class<TimeZone> type() {

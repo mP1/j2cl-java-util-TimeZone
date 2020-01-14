@@ -37,6 +37,15 @@ public final class SimpleTimeZone extends TimeZone {
 
     private final static Set<TimeZone> ALL = Sets.ordered();
 
+    static TimeZone getTimeZone0(final String name) {
+        Objects.requireNonNull(name, "name");
+
+        return ALL.stream()
+                .filter(t -> t.id.equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
     static {
         TimeZones.getTimeZones();
     }
