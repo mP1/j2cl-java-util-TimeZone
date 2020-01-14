@@ -65,6 +65,17 @@ public final class SimpleTimeZoneTest extends TimeZoneTestCase<SimpleTimeZone>
         assertEquals(offset, timeZone.getRawOffset(), "rawOffset");
     }
 
+    // getDSTSavings.....................................................................................................
+
+    @Test
+    public void testGetDSTSavings() {
+        final String name = "Australia/Sydney";
+
+        final java.util.TimeZone jre = java.util.TimeZone.getTimeZone(name);
+        final TimeZone emulated = TimeZone.getTimeZone(name);
+        assertEquals(jre.getDSTSavings(), emulated.getDSTSavings());
+    }
+
     // hasSameRules......................................................................................................
 
     @Test

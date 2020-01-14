@@ -161,7 +161,7 @@ public final class SimpleTimeZone extends TimeZone {
 
     @Override
     public boolean useDaylightTime() {
-        throw new UnsupportedOperationException();
+        return this.daylightSavings > 0;
     }
 
     private final int startMonth;
