@@ -144,11 +144,10 @@ public abstract class TimeZone {
      * @return the daylight savings offset in milliseconds if this {@code TimeZone}
      * observes daylight savings, zero otherwise.
      */
-    public int getDSTSavings() {
-        if (this.useDaylightTime()) {
-            return TimeZones.ONE_HOUR;
-        }
-        return 0;
+    public final int getDSTSavings() {
+        return this.useDaylightTime() ?
+                TimeZones.ONE_HOUR :
+                0;
     }
 
     /**
