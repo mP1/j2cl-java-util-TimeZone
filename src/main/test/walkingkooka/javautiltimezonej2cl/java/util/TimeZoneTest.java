@@ -18,17 +18,18 @@
 package walkingkooka.javautiltimezonej2cl.java.util;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class TimeZoneTest implements ClassTesting2<TimeZone> {
+public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
+
+    // getAvailableIDs..................................................................................................
 
     @Test
     public void testGetAvailableIDs() {
@@ -59,15 +60,53 @@ public final class TimeZoneTest implements ClassTesting2<TimeZone> {
         assertEquals(hobart, timeZone.getID(), "id");
     }
 
-    // ClassTesting......................................................................................................
+    // default .........................................................................................................
+
+    @Test
+    public void testDefaultTimeZoneWithoutSystemPropertyFails() {
+        System.clearProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY);
+        TimeZone.DEFAULT = null;
+
+        assertThrows(IllegalStateException.class, () -> TimeZone.getDefault());
+    }
+
+    @Test
+    public void testDefaultTimeZoneEmptySystemPropertyFails() {
+        System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, "");
+        TimeZone.DEFAULT = null;
+
+        assertThrows(IllegalStateException.class, () -> TimeZone.getDefault());
+    }
+
+    @Test
+    public void testGetDefault() {
+        final String hobart = "Australia/Hobart";
+        System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, hobart);
+        TimeZone.DEFAULT = null;
+
+        final TimeZone timeZone = TimeZone.getDefault();
+        assertEquals(hobart, timeZone.getID(), "id");
+    }
+
+    @Test
+    public void testSetDefaultNullTimeZoneFails() {
+        assertThrows(NullPointerException.class, () -> TimeZone.setDefault(null));
+    }
+
+    @Test
+    public void testSetDefault() {
+        final String hobart = "Australia/Hobart";
+        System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, hobart);
+
+        final TimeZone newDefault = new SimpleTimeZone(123, "newDefault1");
+        TimeZone.setDefault(newDefault);
+        assertSame(newDefault, TimeZone.getDefault());
+    }
+
+    // ClassTesting.....................................................................................................
 
     @Override
     public Class<TimeZone> type() {
         return TimeZone.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }

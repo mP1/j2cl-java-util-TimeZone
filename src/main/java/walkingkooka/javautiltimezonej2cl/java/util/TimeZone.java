@@ -77,7 +77,10 @@ public abstract class TimeZone {
      * @return the default time zone.
      */
     public static synchronized TimeZone getDefault() {
-        throw new UnsupportedOperationException();
+        if(null == DEFAULT) {
+            DEFAULT = getTimeZoneFromSystemProperty();
+        }
+        return DEFAULT;
     }
 
     /**
@@ -86,11 +89,25 @@ public abstract class TimeZone {
      * determined. This behavior is slightly different than the canonical
      * description of this method, but it follows the spirit of it.
      *
-     * @param timezone
-     *            a {@code TimeZone} object.
+     * @param timezone a {@code TimeZone} object.
      */
     public static synchronized void setDefault(final TimeZone timezone) {
-        throw new UnsupportedOperationException();
+        Objects.requireNonNull(timezone, "timezone");
+
+        DEFAULT = timezone;
+    }
+
+    // @VisibleForTesting
+    static TimeZone DEFAULT;
+
+    static String DEFAULT_TIMEZONE_SYSTEM_PROPERTY = "walkingkooka.javautiltimezonej2cl.TimeZone";
+
+    private static TimeZone getTimeZoneFromSystemProperty() {
+        final String defaultTimeZone = System.getProperty(DEFAULT_TIMEZONE_SYSTEM_PROPERTY);
+        if (CharSequences.isNullOrEmpty(defaultTimeZone)) {
+            throw new IllegalStateException("Default timezone system property " + CharSequences.quote(DEFAULT_TIMEZONE_SYSTEM_PROPERTY) + " missing");
+        }
+        return getTimeZone(defaultTimeZone);
     }
 
     // ctor.............................................................................................................
