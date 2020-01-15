@@ -29,6 +29,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
 
+    // constants........................................................................................................
+
+    @Test
+    public void testShort() {
+        assertEquals(java.util.TimeZone.SHORT, TimeZone.SHORT);
+    }
+
+    @Test
+    public void testLong() {
+        assertEquals(java.util.TimeZone.LONG, TimeZone.LONG);
+    }
+
     // getAvailableIDs..................................................................................................
 
     @Test
