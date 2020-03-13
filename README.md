@@ -17,7 +17,7 @@ Some portions of Apache Harmony have been used such as the definition of all Tim
 
 ## Transpiling
 
-The `j2cl-maven-plugin` will repackage the source during the transpile phase, so `walkingkooka.javautiltimezonej2cl.java.util.TimeZone`
+The `j2cl-maven-plugin` will shade the source during the transpile phase, so `walkingkooka.javautiltimezonej2cl.java.util.TimeZone`
 is available to the runtime as `java.util.TimeZone` and something similar for `walkingkooka.javautiltimezonej2cl.java.util.SimpleTimeZone`. 
 
 
