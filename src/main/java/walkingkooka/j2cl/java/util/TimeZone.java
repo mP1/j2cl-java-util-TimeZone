@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package walkingkooka.javautiltimezonej2cl.java.util;
+package walkingkooka.j2cl.java.util;
 
 import walkingkooka.text.CharSequences;
 
@@ -100,7 +100,7 @@ public abstract class TimeZone {
     // @VisibleForTesting
     static TimeZone DEFAULT;
 
-    static String DEFAULT_TIMEZONE_SYSTEM_PROPERTY = "walkingkooka.javautiltimezonej2cl.TimeZone";
+    static String DEFAULT_TIMEZONE_SYSTEM_PROPERTY = "walkingkooka.j2cl.TimeZone";
 
     private static TimeZone getTimeZoneFromSystemProperty() {
         final String defaultTimeZone = System.getProperty(DEFAULT_TIMEZONE_SYSTEM_PROPERTY);

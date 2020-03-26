@@ -15,9 +15,9 @@
  *  limitations under the License.
  */
 
-package walkingkooka.javautiltimezonej2cl.java.util;
+package walkingkooka.j2cl.java.util;
 
-import walkingkooka.javautiltimezonej2cl.Calendar;
+import walkingkooka.j2cl.Calendar;
 
 final class TimeZones {
 
