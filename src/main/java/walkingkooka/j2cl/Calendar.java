@@ -15,7 +15,7 @@
  *
  */
 
-package walkingkooka.javautiltimezonej2cl;
+package walkingkooka.j2cl;
 
 /**
  * A copy of the Apache Harmony Calendar class mostly just to keep the constants.

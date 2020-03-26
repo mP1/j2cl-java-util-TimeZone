@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package walkingkooka.javautiltimezonej2cl.java.util;
+package walkingkooka.j2cl.java.util;
 
 import walkingkooka.ToStringBuilder;
 import walkingkooka.ToStringBuilderOption;
