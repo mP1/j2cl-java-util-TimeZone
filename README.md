@@ -9,9 +9,23 @@
 # java.util.TimeZone
 
 This project aims to provide a mostly complete `java.util.Time` and `java.util.SimpleTimeZone` and possibly a few other
-support classes.
+support classes, but some features have been removed.
 
 Some portions of Apache Harmony have been used such as the definition of all TimeZones.
+
+- Sub classing of `java.util.TimeZone` is not supported.
+- `java.util.SimpleTimeZone` ctors are package private preventing creation with custom values.
+- Serialization is not supported, and all support classes and forms including magic methods such as `writeReplace` are removed.
+- `java.util.TimeZone#getDisplay` is not yet supported see [TimeZone#getDisplay](https://github.com/mP1/j2cl-java-util-TimeZone/issues/30)
+- `java.util.TimeZone#getOffset` is not yet supported see [TimeZone#getOffset](https://github.com/mP1/j2cl-java-util-TimeZone/issues/26)
+- `java.util.TimeZone#insDaylightTime` is not yet supported see [TimeZone#inDaylightTime](https://github.com/mP1/j2cl-java-util-TimeZone/issues/25)
+
+See issues for a current list.
+
+
+## Supported/Unsupported APIS
+
+TODO
 
 
 
@@ -19,19 +33,6 @@ Some portions of Apache Harmony have been used such as the definition of all Tim
 
 The `j2cl-maven-plugin` will shade the source during the transpile phase, so `TimeZone`
 is available to the runtime as `java.util.TimeZone` and something similar for `SimpleTimeZone`. 
-
-
-
-## Removed functionality
-
-- Sub classing of `TimeZone` not supported.
-- `SimpleTimeZone` ctors package private preventing creation with custom values.
-
-
-
-### Serialization
-
-Serialization is not supported, and all support classes and forms including magic methods such as `writeReplace` are removed.
 
 
 
