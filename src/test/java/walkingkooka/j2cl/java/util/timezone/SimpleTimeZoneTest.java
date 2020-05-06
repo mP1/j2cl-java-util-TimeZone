@@ -15,7 +15,7 @@
  *
  */
 
-package walkingkooka.j2cl.java.util;
+package walkingkooka.j2cl.java.util.timezone;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.HashCodeEqualsDefinedTesting2;
