@@ -1,2 +1,2 @@
-walkingkooka.j2cl.java.util.timezoneou=java.util
+walkingkooka.j2cl.java.util.timezone=java.util
 
