@@ -103,7 +103,7 @@ public abstract class TimeZone {
     static String DEFAULT_TIMEZONE_SYSTEM_PROPERTY = "walkingkooka.j2cl.TimeZone";
 
     private static TimeZone getTimeZoneFromSystemProperty() {
-        final String defaultTimeZone = System.getProperty(DEFAULT_TIMEZONE_SYSTEM_PROPERTY);
+        final String defaultTimeZone = System.getProperty("walkingkooka.j2cl.TimeZone");// j2cl requires literal
         if (CharSequences.isNullOrEmpty(defaultTimeZone)) {
             throw new IllegalStateException("Default timezone system property " + CharSequences.quote(DEFAULT_TIMEZONE_SYSTEM_PROPERTY) + " missing");
         }
