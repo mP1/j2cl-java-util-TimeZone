@@ -64,7 +64,7 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
 
     @Test
     public void testGetAvailableIDsWithOffset() {
-        final int offset = 10;
+        final int offset = 10 * 60 * 60 * 1000;
         final String[] ids = TimeZone.getAvailableIDs(offset);
         assertNotEquals(0, ids.length, "expected some ids with offset " + offset);
 
@@ -73,7 +73,7 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
                 .filter(t -> t.getRawOffset() == offset)
                 .collect(Collectors.toList());
 
-        assertEquals(Lists.empty(),
+        assertNotEquals(Lists.empty(),
                 timeZones,
                 () -> "some ids have the wrong offset");
     }

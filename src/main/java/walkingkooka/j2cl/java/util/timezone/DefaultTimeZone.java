@@ -113,6 +113,7 @@ final class DefaultTimeZone extends TimeZone {
         return ZONEID_TO_DEFAULT_TIME_ZONE.values()
                 .stream()
                 .filter(d -> d.getRawOffset() == offset)
+                .map(DefaultTimeZone::getID)
                 .toArray(String[]::new);
     }
 
