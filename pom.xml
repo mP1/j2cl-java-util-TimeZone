@@ -272,7 +272,7 @@
                     <invokerPropertiesFile>${project.build.directory}/it-repo/invoker.properties</invokerPropertiesFile>
                     <localRepositoryPath>${project.build.directory}/it-repo</localRepositoryPath>
                     <settingsFile>src/it/settings.xml</settingsFile>
-                    <streamLogs>true</streamLogs>
+                    <streamLogs>false</streamLogs>
                 </configuration>
             </plugin>
         </plugins>
