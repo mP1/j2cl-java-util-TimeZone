@@ -102,6 +102,21 @@ final class DefaultTimeZone extends TimeZone {
     }
 
     /**
+     * Gets the available time zone IDs which match the specified offset from
+     * GMT. Any one of these IDs can be passed to {@code get()} to create the corresponding
+     * {@code TimeZone} instance.
+     *
+     * @param offset the offset from GMT in milliseconds.
+     * @return an array of time zone ID strings.
+     */
+    static synchronized String[] getDefaultTimeZoneAvailableIDsWithRawOffset(final int offset) {
+        return ZONEID_TO_DEFAULT_TIME_ZONE.values()
+                .stream()
+                .filter(d -> d.getRawOffset() == offset)
+                .toArray(String[]::new);
+    }
+
+    /**
      * Constructor only called by {@link #register(DataInput)}.
      */
     private DefaultTimeZone(final String id,
