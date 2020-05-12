@@ -17,12 +17,27 @@
 
 package walkingkooka.j2cl.java.util.timezone;
 
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.j2cl.locale.TimeZoneDisplay;
 
-public abstract class TimeZoneTestCase<T extends TimeZone> implements ClassTesting2<T> {
+import java.util.Locale;
 
-    TimeZoneTestCase() {
-        super();
+final class TimeZoneDisplayLocalesDefault extends TimeZoneDisplayLocales {
+
+    static TimeZoneDisplayLocalesDefault with(final TimeZoneDisplay display) {
+        return new TimeZoneDisplayLocalesDefault(display);
+    }
+
+    private TimeZoneDisplayLocalesDefault(final TimeZoneDisplay display) {
+        super(display);
+    }
+
+    @Override
+    boolean contains(final Locale locale) {
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.display.toString();
     }
 }

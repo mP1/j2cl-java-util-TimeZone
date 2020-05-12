@@ -17,18 +17,10 @@
 
 package walkingkooka.j2cl.java.util.timezone;
 
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
-
-public final class TimeZonesTest implements ClassTesting<TimeZones> {
+public final class TimeZoneDisplayLocalesTest extends TimeZoneDisplayLocalesTestCase<TimeZoneDisplayLocales> {
 
     @Override
-    public Class<TimeZones> type() {
-        return TimeZones.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PACKAGE_PRIVATE;
+    public Class<TimeZoneDisplayLocales> type() {
+        return TimeZoneDisplayLocales.class;
     }
 }

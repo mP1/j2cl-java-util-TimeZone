@@ -14,7 +14,7 @@ support classes, but some features have been removed.
 Some portions of Apache Harmony have been used such as the definition of all TimeZones.
 
 - Sub classing of `java.util.TimeZone` is not supported.
-- `java.util.SimpleTimeZone` ctors are package private preventing creation with custom values.
+- `java.util.SimpleTimeZone` is not available.
 - Serialization is not supported, and all support classes and forms including magic methods such as `writeReplace` are removed.
 - `java.util.TimeZone#getDisplay` is not yet supported see [TimeZone#getDisplay](https://github.com/mP1/j2cl-java-util-TimeZone/issues/30)
 - `java.util.TimeZone#getOffset` is not yet supported see [TimeZone#getOffset](https://github.com/mP1/j2cl-java-util-TimeZone/issues/26)
@@ -44,3 +44,13 @@ of the github page, or you can make a clone using git:
 ```
 git clone git://github.com/mP1/j2cl-java-util-TimeZone.git
 ```
+
+
+
+### IDE build setup
+
+Annotation processors from class path must be enabled as some tests test the output of generated classes.
+
+The star/wildcard may need to be escaped with a backslash.
+
+![Intellij -> System Preferences -> Annotation Processors](intellij-enable-annotation-processors.png)

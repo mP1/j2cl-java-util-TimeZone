@@ -20,9 +20,14 @@ package walkingkooka.j2cl.java.util.timezone;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 
-public abstract class TimeZoneTestCase<T extends TimeZone> implements ClassTesting2<T> {
+public abstract class TimeZoneDisplayLocalesTestCase<D extends TimeZoneDisplayLocales> implements ClassTesting2<D> {
 
-    TimeZoneTestCase() {
+    TimeZoneDisplayLocalesTestCase() {
         super();
+    }
+
+    @Override
+    public final JavaVisibility typeVisibility() {
+        return JavaVisibility.PACKAGE_PRIVATE;
     }
 }

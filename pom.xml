@@ -110,7 +110,25 @@
 
     <dependencies>
 
-        <!-- j2cl compile dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>walkingkooka</groupId>
+            <artifactId>j2cl-java-util-Locale</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>walkingkooka</groupId>
+            <artifactId>j2cl-java-util-TimeZone-annotation-processor</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>walkingkooka</groupId>
             <artifactId>j2cl-uber</artifactId>
@@ -121,13 +139,6 @@
             <groupId>walkingkooka</groupId>
             <artifactId>walkingkooka</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.4.0</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -149,10 +160,12 @@
                 <configuration>
                     <source>9</source>
                     <target>9</target>
-                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    <compilerArgs>
+                        <arg>-Awalkingkooka.j2cl.java.util.Locale=,EN-*,DE-DE</arg>
+                        <arg>-Awalkingkooka.j2cl.java.util.TimeZone=Australia/*</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
-            <!-- Setup testing -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -164,28 +177,6 @@
                         <version>1.1.0</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-invoker-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>install</goal>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <cloneProjectsTo>${project.build.directory}/it-tests</cloneProjectsTo>
-                    <debug>true</debug>
-                    <invokerPropertiesFile>${project.build.directory}/it-repo/invoker.properties</invokerPropertiesFile>
-                    <localRepositoryPath>${project.build.directory}/it-repo</localRepositoryPath>
-                    <settingsFile>src/it/settings.xml</settingsFile>
-                    <streamLogs>false</streamLogs>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -235,13 +226,23 @@
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
-                <configuration/>
+                <configuration>
+                    <excludes>
+                        <exclude>walkingkooka/j2cl/java/util/locale/LocaleProvider*</exclude>
+                        <exclude>walkingkooka/j2cl/java/util/timezone/TimeZoneProvider*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.0.1</version>
-                <configuration/>
+                <configuration>
+                    <excludes>
+                        <exclude>walkingkooka/j2cl/java/util/locale/LocaleProvider*</exclude>
+                        <exclude>walkingkooka/j2cl/java/util/timezone/TimeZoneProvider*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -251,6 +252,28 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <cloneProjectsTo>${project.build.directory}/it-tests</cloneProjectsTo>
+                    <debug>true</debug>
+                    <invokerPropertiesFile>${project.build.directory}/it-repo/invoker.properties</invokerPropertiesFile>
+                    <localRepositoryPath>${project.build.directory}/it-repo</localRepositoryPath>
+                    <settingsFile>src/it/settings.xml</settingsFile>
+                    <streamLogs>true</streamLogs>
+                </configuration>
             </plugin>
         </plugins>
         <!-- Manage plugin versions -->
