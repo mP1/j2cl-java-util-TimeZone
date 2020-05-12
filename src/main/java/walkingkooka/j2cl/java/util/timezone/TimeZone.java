@@ -22,6 +22,7 @@ import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.text.CharSequences;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -49,8 +50,8 @@ public abstract class TimeZone {
      * @param offset the offset from GMT in milliseconds.
      * @return an array of time zone ID strings.
      */
-    public static synchronized String[] getAvailableIDs(int offset) {
-        throw new UnsupportedOperationException();
+    public static synchronized String[] getAvailableIDs(final int offset) {
+        return DefaultTimeZone.getDefaultTimeZoneAvailableIDsWithRawOffset(offset);
     }
 
     /**

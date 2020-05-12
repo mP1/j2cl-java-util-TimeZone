@@ -18,15 +18,19 @@
 package walkingkooka.j2cl.java.util.timezone;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.collect.list.Lists;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.SimpleTimeZone;
+import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -54,6 +58,31 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
         assertEquals(uniques.size(),
                 ids.length,
                 () -> "ids contains duplicates ");
+    }
+
+    // getAvailableIDs..................................................................................................
+
+    @Test
+    public void testGetAvailableIDsWithOffset() {
+        final int offset = 10;
+        final String[] ids = TimeZone.getAvailableIDs(offset);
+        assertNotEquals(0, ids.length, "expected some ids with offset " + offset);
+
+        final List<TimeZone> timeZones = Arrays.stream(ids)
+                .map(TimeZone::getTimeZone)
+                .filter(t -> t.getRawOffset() == offset)
+                .collect(Collectors.toList());
+
+        assertEquals(Lists.empty(),
+                timeZones,
+                () -> "some ids have the wrong offset");
+    }
+
+    @Test
+    public void testGetAvailableIDsWithOffsetNone() {
+        final int offset = 0;
+        final String[] ids = TimeZone.getAvailableIDs(offset);
+        assertArrayEquals(new String[0], ids, () -> "expected NO ids with offset " + offset);
     }
 
     // getTimeZone......................................................................................................
