@@ -18,10 +18,13 @@
 package walkingkooka.j2cl.java.util.timezone;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.reflect.JavaVisibility;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
+import java.util.SimpleTimeZone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -110,9 +113,62 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
         final String hobart = "Australia/Hobart";
         System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, hobart);
 
-        final TimeZone newDefault = new SimpleTimeZone(123, "newDefault1");
+        final TimeZone newDefault = TimeZone.getTimeZone(hobart);
         TimeZone.setDefault(newDefault);
         assertSame(newDefault, TimeZone.getDefault());
+    }
+
+    // getDisplay.......................................................................................................
+
+    @Test
+    public void testGetDisplayNameAustraliaSydneyEnAU() {
+        this.getDisplayAndCheck("Australia/Sydney", "EN-AU");
+    }
+
+    @Test
+    public void testGetDisplayNameAustraliaAdelaideEnAU() {
+        this.getDisplayAndCheck("Australia/Adelaide", "EN-AU");
+    }
+
+    @Test
+    public void testGetDisplayNameAustraliaSydneyDE() {
+        this.getDisplayAndCheck("Australia/Sydney", "DE-DE");
+    }
+
+    @Test
+    public void testAll() {
+        for (final String timeZoneId : TimeZone.getAvailableIDs()) {
+            final TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
+            for (final walkingkooka.j2cl.java.util.locale.Locale locale : walkingkooka.j2cl.java.util.locale.Locale.getAvailableLocales()) {
+                getDisplayAndCheck(timeZone, Locale.forLanguageTag(locale.toLanguageTag()));
+            }
+        }
+    }
+
+
+    private void getDisplayAndCheck(final String timeZoneId,
+                                    final String locale) {
+        this.getDisplayAndCheck(TimeZone.getTimeZone(timeZoneId),
+                Locale.forLanguageTag(locale));
+    }
+
+    private void getDisplayAndCheck(final TimeZone timeZone,
+                                    final Locale locale) {
+        getDisplayAndCheck(timeZone, TimeZone.SHORT, false, locale);
+        getDisplayAndCheck(timeZone, TimeZone.SHORT, true, locale);
+        getDisplayAndCheck(timeZone, TimeZone.LONG, false, locale);
+        getDisplayAndCheck(timeZone, TimeZone.LONG, true, locale);
+    }
+
+
+    private void getDisplayAndCheck(final TimeZone timeZone,
+                                    final int style,
+                                    final boolean daylight,
+                                    final Locale locale) {
+        final java.util.TimeZone real = java.util.TimeZone.getTimeZone(timeZone.getID());
+        assertEquals(real.getDisplayName(daylight, style, locale),
+                timeZone.getDisplayName(daylight, style, locale),
+                () -> "getDisplayName daylight=" + daylight + " style=" + (TimeZone.SHORT == style ? "SHORT" : "LONG") + " locale=" + locale);
     }
 
     // ClassTesting.....................................................................................................
@@ -120,5 +176,10 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
     @Override
     public Class<TimeZone> type() {
         return TimeZone.class;
+    }
+
+    @Override
+    public final JavaVisibility typeVisibility() {
+        return JavaVisibility.PUBLIC;
     }
 }

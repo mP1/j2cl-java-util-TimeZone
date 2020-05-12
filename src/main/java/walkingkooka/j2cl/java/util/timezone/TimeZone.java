@@ -17,22 +17,17 @@
 
 package walkingkooka.j2cl.java.util.timezone;
 
+import walkingkooka.j2cl.java.io.string.StringDataInputDataOutput;
+import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.text.CharSequences;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
+@LocaleAware
 public abstract class TimeZone {
-
-    /**
-     * The SHORT display name style.
-     */
-    public static final int SHORT = 0;
-
-    /**
-     * The LONG display name style.
-     */
-    public static final int LONG = 1;
 
     // available ids....................................................................................................
 
@@ -43,7 +38,7 @@ public abstract class TimeZone {
      * @return an array of time zone ID strings.
      */
     public static synchronized String[] getAvailableIDs() {
-        return SimpleTimeZone.getAvailableIDs0();
+        return DefaultTimeZone.getDefaultTimeZoneAvailableIDs();
     }
 
     /**
@@ -66,7 +61,7 @@ public abstract class TimeZone {
      * the specified ID exists.
      */
     public static TimeZone getTimeZone(final String name) {
-        return SimpleTimeZone.getTimeZone0(name);
+        return DefaultTimeZone.getDefaultTimeZone(name);
     }
 
     // default .........................................................................................................
@@ -77,7 +72,7 @@ public abstract class TimeZone {
      * @return the default time zone.
      */
     public static synchronized TimeZone getDefault() {
-        if(null == DEFAULT) {
+        if (null == DEFAULT) {
             DEFAULT = getTimeZoneFromSystemProperty();
         }
         return DEFAULT;
@@ -146,9 +141,12 @@ public abstract class TimeZone {
      */
     public final int getDSTSavings() {
         return this.useDaylightTime() ?
-                TimeZones.ONE_HOUR :
+                ONE_HOUR :
                 0;
     }
+
+    private static final int HALF_HOUR = 1800000;
+    private static final int ONE_HOUR = HALF_HOUR * 2;
 
     /**
      * Gets the offset from GMT of this {@code TimeZone} for the specified date. The
@@ -226,4 +224,95 @@ public abstract class TimeZone {
      * otherwise.
      */
     abstract public boolean useDaylightTime();
+
+    /**
+     * The SHORT display name style.
+     */
+    public static final int SHORT = 0;
+
+    /**
+     * The LONG display name style.
+     */
+    public static final int LONG = 1;
+
+    /**
+     * Gets the LONG name for this {@code TimeZone} for the default {@code Locale} in standard
+     * time. If the name is not available, the result is in the format
+     * {@code GMT[+-]hh:mm}.
+     *
+     * @return the {@code TimeZone} name.
+     */
+    public final String getDisplayName() {
+        return getDisplayName(false, LONG, Locale.getDefault());
+    }
+
+    /**
+     * Gets the LONG name for this {@code TimeZone} for the specified {@code Locale} in standard
+     * time. If the name is not available, the result is in the format
+     * {@code GMT[+-]hh:mm}.
+     *
+     * @param locale the {@code Locale}.
+     * @return the {@code TimeZone} name.
+     */
+    public final String getDisplayName(Locale locale) {
+        return getDisplayName(false, LONG, locale);
+    }
+
+    /**
+     * Gets the specified style of name ({@code LONG} or {@code SHORT}) for this {@code TimeZone} for
+     * the default {@code Locale} in either standard or daylight time as specified. If
+     * the name is not available, the result is in the format {@code GMT[+-]hh:mm}.
+     *
+     * @param daylightTime {@code true} for daylight time, {@code false} for standard
+     *                     time.
+     * @param style        either {@code LONG} or {@code SHORT}.
+     * @return the {@code TimeZone} name.
+     */
+    public final String getDisplayName(boolean daylightTime, int style) {
+        return getDisplayName(daylightTime, style, Locale.getDefault());
+    }
+
+    /**
+     * Gets the specified style of name ({@code LONG} or {@code SHORT}) for this {@code TimeZone} for
+     * the specified {@code Locale} in either standard or daylight time as specified. If
+     * the name is not available, the result is in the format {@code GMT[+-]hh:mm}.
+     *
+     * @param daylightTime {@code true} for daylight time, {@code false} for standard
+     *                     time.
+     * @param style        either LONG or SHORT.
+     * @param locale       either {@code LONG} or {@code SHORT}.
+     * @return the {@code TimeZone} name.
+     */
+    public String getDisplayName(final boolean daylightTime,
+                                 final int style,
+                                 final Locale locale) {
+        switch(style) {
+            case SHORT:
+            case LONG:
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal style " + style);
+        }
+
+        final String zoneId = this.getID();
+        final DefaultTimeZone defaultTimeZone =  DefaultTimeZone.getDefaultTimeZone(zoneId);
+        if (null == defaultTimeZone) {
+            throw new IllegalStateException("ZoneId " + CharSequences.quoteAndEscape(zoneId) + " missing");
+        }
+
+        return defaultTimeZone.getDisplayName(daylightTime,
+                style,
+                locale);
+    }
+
+    /**
+     * Consumes {@link TimeZoneProvider#DATA} creating a {@link TimeZone} for each record.
+     */
+    static {
+        try {
+            DefaultTimeZone.register(StringDataInputDataOutput.input(TimeZoneProvider.DATA));
+        } catch (final IOException cause) {
+            throw new Error(cause);
+        }
+    }
 }

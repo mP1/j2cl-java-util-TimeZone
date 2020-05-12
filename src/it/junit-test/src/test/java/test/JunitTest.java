@@ -19,10 +19,13 @@ package test;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Assert;
 import org.junit.Test;
+import walkingkooka.collect.list.Lists;
 import walkingkooka.text.CharSequences;
 
-import java.util.SimpleTimeZone;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 @J2clTestInput(JunitTest.class)
 public class JunitTest {
@@ -46,6 +49,41 @@ public class JunitTest {
         Assert.assertEquals("TimeZone " + CharSequences.quote(id),
                 offset * 60 * 60 * 1000,
                 TimeZone.getTimeZone(id).getRawOffset());
+    }
+
+    @Test
+    public void testGetDisplayNameAustraliaSydneyEnAULong() {
+        this.getDisplayNameAndCheck("Australia/Sydney",
+                "EN-AU",
+                false,
+                TimeZone.LONG,
+                "Australian Eastern Standard Time");
+    }
+
+    @Test
+    public void testGetDisplayNameAustraliaSydneyEnAUShort() {
+        this.getDisplayNameAndCheck("Australia/Sydney",
+                "EN-AU",
+                false,
+                TimeZone.SHORT,
+                "AEST");
+    }
+
+    @Test
+    public void testGetDisplayNameAustraliaAdelaideEnAULong() {
+        this.getDisplayNameAndCheck("Australia/Adelaide",
+                "DE-DE",
+                false,
+                TimeZone.LONG,
+                "Zentralaustralische Normalzeit");
+    }
+
+    private void getDisplayNameAndCheck(final String timeZoneId,
+                                        final String locale,
+                                        final boolean daylight,
+                                        final int style,
+                                        final String expected) {
+        Assert.assertEquals(expected, TimeZone.getTimeZone(timeZoneId).getDisplayName(daylight, style, Locale.forLanguageTag(locale)));
     }
 
 //    @Test
