@@ -38,6 +38,11 @@ import java.util.stream.Collectors;
 final class DefaultTimeZone extends TimeZone {
 
     /**
+     * TimeZoneId to {@link DefaultTimeZone} instances.
+     */
+    private final static Map<String, DefaultTimeZone> ZONEID_TO_DEFAULT_TIME_ZONE = Maps.sorted();
+
+    /**
      * Intended to only be called by the static init above. A test exists to verify the {@link DataInput} is consumed
      * and further operations will fail with an {@link java.io.EOFException}.
      */
@@ -69,11 +74,6 @@ final class DefaultTimeZone extends TimeZone {
             new DefaultTimeZone(timeZoneId, rawOffset, displayLocales);
         }
     }
-
-    /**
-     * TimeZoneId to {@link DefaultTimeZone} instances.
-     */
-    private final static Map<String, DefaultTimeZone> ZONEID_TO_DEFAULT_TIME_ZONE = Maps.sorted();
 
     /**
      * Gets the {@code TimeZone} with the specified ID.
