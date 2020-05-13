@@ -12,7 +12,6 @@ This project aims to provide a mostly complete pure Java `java.util.TimeZone`.
 
 - Only selected ids/TimeZones will appear in methods like `java.util.TimeZone#getAvailableIDs` and `java.util.TimeZone#getTimeZone`. 
 - Localization data for `java.util.TimeZone#getDisplay` is only provided for selected locales, timezone ids at build time by an [annotation processor](https://github.com/mP1/j2cl-java-util-TimeZone-annotation-processor).
-- `java.util.SimpleTimeZone` is missing.
 - Serialization is not supported, and all support classes and forms including magic methods such as `writeReplace` are removed.
 
 
@@ -26,13 +25,16 @@ This project aims to provide a mostly complete pure Java `java.util.TimeZone`.
 
 ## Unsupported APIs
 
+`java.util.TimeZone`
+
 - getOffset (all overloads) throws UnsupportedOperationException
 - inDaylightTime(Date) throws UnsupportedOperationException
 - observesDaylightTime() missing
 - setId throws UnsupportedOperationException, timezones are immutable
 - useDaylightTime throws UnsupportedOperationException
 
-
+`java.util.SimpleTimeZone`
+- Class missing
 
 ## Transpiling
 
