@@ -163,6 +163,7 @@
                     <compilerArgs>
                         <arg>-Awalkingkooka.j2cl.java.util.Locale=,EN-*,DE-DE</arg>
                         <arg>-Awalkingkooka.j2cl.java.util.TimeZone=Australia/*</arg>
+                        <arg>-Awalkingkooka.j2cl.locale.Logging=SLASH_SLASH_COMMENTS</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
