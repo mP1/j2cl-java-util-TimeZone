@@ -42,9 +42,6 @@ final class DefaultTimeZone extends TimeZone {
      * and further operations will fail with an {@link java.io.EOFException}.
      */
     static void register(final DataInput data) throws IOException {
-        final Set<Locale> allLocales = Arrays.stream(Locale.getAvailableLocales())
-                .collect(Collectors.toCollection(Sets::ordered));
-
         final int count = data.readInt();
 
         for (int z = 0; z < count; z++) {
