@@ -40,13 +40,15 @@ final class DefaultTimeZone extends TimeZone {
     /**
      * TimeZoneId to {@link DefaultTimeZone} instances.
      */
-    private final static Map<String, DefaultTimeZone> ZONEID_TO_DEFAULT_TIME_ZONE = Maps.sorted();
+    private static Map<String, DefaultTimeZone> ZONEID_TO_DEFAULT_TIME_ZONE;
 
     /**
      * Intended to only be called by the static init above. A test exists to verify the {@link DataInput} is consumed
      * and further operations will fail with an {@link java.io.EOFException}.
      */
     static void register(final DataInput data) throws IOException {
+        ZONEID_TO_DEFAULT_TIME_ZONE = Maps.sorted(); // field is null on travis w/ openjdk9.
+
         final int count = data.readInt();
 
         for (int z = 0; z < count; z++) {
