@@ -24,6 +24,7 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,11 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
     }
 
     @Test
+    public void testAllMethodsVisibility() {
+        // complains that DefaultTimeZone.calendarData
+    }
+
+    @Test
     public void testTimeZoneProviderLocalesFilter() {
         assertEquals(",EN-*,DE-DE", TimeZoneProvider.ANNOTATION_PROCESSOR_LOCALES_FILTER);
     }
@@ -55,6 +61,37 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
                         })
                         .collect(Collectors.toList()),
                 "invalid locales");
+    }
+
+    // calendarData.....................................................................................................
+
+    @Test
+    public void testCalendarDataENAU() {
+        calendarDataAndCheck("Australia/Sydney", "EN-AU");
+    }
+
+    @Test
+    public void testCalendarDataENNZ() {
+        calendarDataAndCheck("Australia/Sydney", "EN-NZ");
+    }
+
+    @Test
+    public void testCalendarDataDEDE() {
+        calendarDataAndCheck("Australia/Sydney", "DE-DE");
+    }
+
+    private void calendarDataAndCheck(final String timeZoneId, final String... locales) {
+        final DefaultTimeZone defaultTimeZone = DefaultTimeZone.getDefaultTimeZone(timeZoneId);
+        final java.util.TimeZone jreTimeZone = java.util.TimeZone.getTimeZone(timeZoneId);
+
+        for (final String languageTag : locales) {
+            final Locale locale = Locale.forLanguageTag(languageTag);
+            final int[] data = defaultTimeZone.calendarData(locale);
+
+            final Calendar calendar = Calendar.getInstance(jreTimeZone, locale);
+            assertEquals(calendar.getFirstDayOfWeek(), data[0], () -> "firstDayOfWeek timeZone: " + timeZoneId + " locale: " + locale);
+            assertEquals(calendar.getMinimalDaysInFirstWeek(), data[1], () -> "minimalDaysInFirstWeek timeZone: " + timeZoneId + " locale: " + locale);
+        }
     }
 
     // getDisplayName....................................................................................................

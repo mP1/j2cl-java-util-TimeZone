@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * The default {@link TimeZone} instances created from the data by {@link TimeZoneProvider#DATA}
@@ -53,6 +54,22 @@ final class DefaultTimeZone extends TimeZone {
             final String timeZoneId = data.readUTF();
             final int rawOffset = data.readInt();
 
+            final List<MultiLocaleValue<int[]>> calendarData = Lists.array();
+            {
+                final int defaultFirstDayOfWeek = data.readInt();
+                final int defaultMinimalDaysInFirstWeek = data.readInt();
+
+                final int calendarToLocalesCount = data.readInt();
+                for(int c = 0; c < calendarToLocalesCount; c++) {
+                    final List<Locale> locales = readLocale(data);
+                    calendarData.add(multiLocaleValue(data.readInt(),
+                            data.readInt(),
+                            locales::contains));
+                }
+
+                calendarData.add(multiLocaleValue(defaultFirstDayOfWeek, defaultMinimalDaysInFirstWeek, Predicates.always())); // default goes last and matches any locale
+            }
+
             final List<MultiLocaleValue<TimeZoneDisplay>> displayLocales = Lists.array();
             final TimeZoneDisplay defaultDisplay = TimeZoneDisplay.read(data);
 
@@ -62,18 +79,36 @@ final class DefaultTimeZone extends TimeZone {
                 final MultiLocaleValue<TimeZoneDisplay> displayAndLocales = MultiLocaleValue.with(TimeZoneDisplay.read(data),
                         locales::contains);
 
-                final int localeCount = data.readInt();
-                for (int ll = 0; ll < localeCount; ll++) {
-                    final Locale locale = Locale.forLanguageTag(data.readUTF());
-                    locales.add(locale);
-                }
+                locales.addAll(readLocale(data)); // #11
 
                 displayLocales.add(displayAndLocales);
             }
 
             displayLocales.add(MultiLocaleValue.with(defaultDisplay, Predicates.always()));
-            new DefaultTimeZone(timeZoneId, rawOffset, displayLocales);
+            new DefaultTimeZone(timeZoneId,
+                    rawOffset,
+                    calendarData,
+                    displayLocales);
         }
+    }
+
+    private static List<Locale> readLocale(final DataInput data) throws IOException {
+        final List<Locale> locales = Lists.array();
+
+        final int localeCount = data.readInt();
+        for (int ll = 0; ll < localeCount; ll++) {
+            final Locale locale = Locale.forLanguageTag(data.readUTF());
+            locales.add(locale);
+        }
+
+        return locales;
+    }
+
+    private static MultiLocaleValue<int[]> multiLocaleValue(final int firstDayOfWeek,
+                                                            final int minimalDaysInFirstWeek,
+                                                            final Predicate<Locale> locales) {
+        return MultiLocaleValue.with(new int[]{firstDayOfWeek, minimalDaysInFirstWeek},
+                locales);
     }
 
     /**
@@ -120,12 +155,24 @@ final class DefaultTimeZone extends TimeZone {
      */
     private DefaultTimeZone(final String id,
                             final int rawOffset,
+                            final List<MultiLocaleValue<int[]>> calendarData,
                             final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
         super(id, rawOffset);
+        this.calendarData = calendarData;
         this.allDisplayLocales = allDisplayLocales;
 
         ZONEID_TO_DEFAULT_TIME_ZONE.put(id, this);
     }
+
+    /**
+     * This is only intended to be consumed by something emulating java.util.Calendar instances providing the firstDayOfWeek and
+     * minimalDaysInFirstWeek properties.
+     */
+    public int[] calendarData(final Locale locale) {
+        return MultiLocaleValue.findValue(this.calendarData, locale);
+    }
+
+    private final List<MultiLocaleValue<int[]>> calendarData;
 
     @Override
     public String getDisplayName(final boolean daylightTime,
