@@ -75,12 +75,9 @@ final class DefaultTimeZone extends TimeZone {
 
             final int displayCount = data.readInt();
             for (int d = 0; d < displayCount; d++) {
-                final List<Locale> locales = Lists.array();
+                final List<Locale> locales =readLocale(data);
                 final MultiLocaleValue<TimeZoneDisplay> displayAndLocales = MultiLocaleValue.with(TimeZoneDisplay.read(data),
                         locales::contains);
-
-                locales.addAll(readLocale(data)); // #11
-
                 displayLocales.add(displayAndLocales);
             }
 
