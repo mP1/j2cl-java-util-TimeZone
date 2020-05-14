@@ -19,18 +19,16 @@ package walkingkooka.j2cl.java.util.timezone;
 
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.collect.set.Sets;
+import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
+import walkingkooka.predicate.Predicates;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * The default {@link TimeZone} instances created from the data by {@link TimeZoneProvider#DATA}
@@ -55,13 +53,14 @@ final class DefaultTimeZone extends TimeZone {
             final String timeZoneId = data.readUTF();
             final int rawOffset = data.readInt();
 
-            final List<TimeZoneDisplayLocales> displayLocales = Lists.array();
+            final List<MultiLocaleValue<TimeZoneDisplay>> displayLocales = Lists.array();
             final TimeZoneDisplay defaultDisplay = TimeZoneDisplay.read(data);
 
             final int displayCount = data.readInt();
             for (int d = 0; d < displayCount; d++) {
                 final List<Locale> locales = Lists.array();
-                final TimeZoneDisplayLocales displayAndLocales = TimeZoneDisplayLocales.filtered(TimeZoneDisplay.read(data), locales);
+                final MultiLocaleValue<TimeZoneDisplay> displayAndLocales = MultiLocaleValue.with(TimeZoneDisplay.read(data),
+                        locales::contains);
 
                 final int localeCount = data.readInt();
                 for (int ll = 0; ll < localeCount; ll++) {
@@ -72,7 +71,7 @@ final class DefaultTimeZone extends TimeZone {
                 displayLocales.add(displayAndLocales);
             }
 
-            displayLocales.add(TimeZoneDisplayLocales.defaultTimeZoneDisplayLocales(defaultDisplay));
+            displayLocales.add(MultiLocaleValue.with(defaultDisplay, Predicates.always()));
             new DefaultTimeZone(timeZoneId, rawOffset, displayLocales);
         }
     }
@@ -121,7 +120,7 @@ final class DefaultTimeZone extends TimeZone {
      */
     private DefaultTimeZone(final String id,
                             final int rawOffset,
-                            final List<TimeZoneDisplayLocales> allDisplayLocales) {
+                            final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
         super(id, rawOffset);
         this.allDisplayLocales = allDisplayLocales;
 
@@ -132,12 +131,7 @@ final class DefaultTimeZone extends TimeZone {
     public String getDisplayName(final boolean daylightTime,
                                  final int style,
                                  final Locale locale) {
-        final TimeZoneDisplayLocales displayLocales = allDisplayLocales.stream()
-                .filter(d -> d.contains(locale))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException());
-
-        final TimeZoneDisplay display = displayLocales.display;
+        final TimeZoneDisplay display = MultiLocaleValue.findValue(this.allDisplayLocales, locale);
         final String text;
 
         switch (style) {
@@ -154,7 +148,7 @@ final class DefaultTimeZone extends TimeZone {
         return text;
     }
 
-    private final List<TimeZoneDisplayLocales> allDisplayLocales;
+    private final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales;
 
     @Override
     public int getOffset(int era, int year, int month, int day, int dayOfWeek, int time) {
