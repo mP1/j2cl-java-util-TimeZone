@@ -20,6 +20,7 @@ package walkingkooka.j2cl.java.util.timezone;
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.list.Lists;
+import walkingkooka.j2cl.locale.GregorianCalendar;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
@@ -93,6 +94,69 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
             assertEquals(calendar.getFirstDayOfWeek(), data.firstDayOfWeek, () -> "firstDayOfWeek timeZone: " + timeZoneId + " locale: " + locale);
             assertEquals(calendar.getMinimalDaysInFirstWeek(), data.minimalDaysInFirstWeek, () -> "minimalDaysInFirstWeek timeZone: " + timeZoneId + " locale: " + locale);
         }
+    }
+
+    // getOffset........................................................................................................
+
+    @Test
+    public void testGetOffsetEraInvalidFails() {
+        this.getOffsetFails(Integer.MAX_VALUE, 1999, 12, 31, 1, 9999);
+    }
+
+    @Test
+    public void testGetOffsetEraBC() {
+        this.getOffsetFails(GregorianCalendar.BC, 1999, 12, 31, 1, 9999);
+    }
+
+    @Test
+    public void testGetOffsetEraAD() {
+        this.getOffsetFails(GregorianCalendar.AD, 1999, 12, 31, 1, 9999);
+    }
+
+    @Test
+    public void testGetOffsetMonthInvalid() {
+        this.getOffsetFails(GregorianCalendar.AD, 1999, -1, 31, 1, 9999);
+    }
+
+    @Test
+    public void testGetOffsetMonthInvalid2() {
+        this.getOffsetFails(GregorianCalendar.AD, 1999, 13, 31, 1, 9999);
+    }
+
+    @Test
+    public void testGetOffsetDayInvalid() {
+        this.getOffsetFails(GregorianCalendar.AD, 1999, 0, -1, 1, 9999);
+    }
+
+    @Test
+    public void testGetOffsetDayInvalid2() {
+        this.getOffsetFails(GregorianCalendar.AD, 1999, 0, 32, 1, 9999);
+    }
+
+    private void getOffsetFails(final int era,
+                                final int year,
+                                final int month,
+                                final int day,
+                                final int dayOfWeek,
+                                final int time) {
+        assertThrows(IllegalArgumentException.class,
+                () -> DefaultTimeZone.getDefaultTimeZone("Australia/Sydney").getOffset(era, year, month, day, dayOfWeek, time));
+    }
+
+    @Test
+    public void testGetOffset() {
+        this.getOffsetAndCheck(GregorianCalendar.AD, 1999, 11, 31, 1, 9999, 123);
+    }
+
+    private void getOffsetAndCheck(final int era,
+                                   final int year,
+                                   final int month,
+                                   final int day,
+                                   final int dayOfWeek,
+                                   final int time,
+                                   final int offset) {
+        assertThrows(UnsupportedOperationException.class,
+                () -> DefaultTimeZone.getDefaultTimeZone("Australia/Sydney").getOffset(era, year, month, day, dayOfWeek, time));
     }
 
     // getDisplayName....................................................................................................
