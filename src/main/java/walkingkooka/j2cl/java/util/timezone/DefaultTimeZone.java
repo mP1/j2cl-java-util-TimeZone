@@ -20,6 +20,7 @@ package walkingkooka.j2cl.java.util.timezone;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
+import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
 import walkingkooka.predicate.Predicates;
 
@@ -54,20 +55,18 @@ final class DefaultTimeZone extends TimeZone {
             final String timeZoneId = data.readUTF();
             final int rawOffset = data.readInt();
 
-            final List<MultiLocaleValue<int[]>> calendarData = Lists.array();
+            final List<MultiLocaleValue<TimeZoneCalendar>> calendarData = Lists.array();
             {
-                final int defaultFirstDayOfWeek = data.readInt();
-                final int defaultMinimalDaysInFirstWeek = data.readInt();
+                final TimeZoneCalendar calendar = TimeZoneCalendar.read(data);
 
                 final int calendarToLocalesCount = data.readInt();
                 for(int c = 0; c < calendarToLocalesCount; c++) {
                     final List<Locale> locales = readLocale(data);
-                    calendarData.add(multiLocaleValue(data.readInt(),
-                            data.readInt(),
+                    calendarData.add(multiLocaleValue(TimeZoneCalendar.read(data),
                             locales::contains));
                 }
 
-                calendarData.add(multiLocaleValue(defaultFirstDayOfWeek, defaultMinimalDaysInFirstWeek, Predicates.always())); // default goes last and matches any locale
+                calendarData.add(multiLocaleValue(calendar, Predicates.always())); // default goes last and matches any locale
             }
 
             final List<MultiLocaleValue<TimeZoneDisplay>> displayLocales = Lists.array();
@@ -101,11 +100,9 @@ final class DefaultTimeZone extends TimeZone {
         return locales;
     }
 
-    private static MultiLocaleValue<int[]> multiLocaleValue(final int firstDayOfWeek,
-                                                            final int minimalDaysInFirstWeek,
-                                                            final Predicate<Locale> locales) {
-        return MultiLocaleValue.with(new int[]{firstDayOfWeek, minimalDaysInFirstWeek},
-                locales);
+    private static MultiLocaleValue<TimeZoneCalendar> multiLocaleValue(final TimeZoneCalendar calendar,
+                                                                       final Predicate<Locale> locales) {
+        return MultiLocaleValue.with(calendar, locales);
     }
 
     /**
@@ -152,7 +149,7 @@ final class DefaultTimeZone extends TimeZone {
      */
     private DefaultTimeZone(final String id,
                             final int rawOffset,
-                            final List<MultiLocaleValue<int[]>> calendarData,
+                            final List<MultiLocaleValue<TimeZoneCalendar>> calendarData,
                             final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
         super(id, rawOffset);
         this.calendarData = calendarData;
@@ -165,11 +162,11 @@ final class DefaultTimeZone extends TimeZone {
      * This is only intended to be consumed by something emulating java.util.Calendar instances providing the firstDayOfWeek and
      * minimalDaysInFirstWeek properties.
      */
-    public int[] calendarData(final Locale locale) {
+    public TimeZoneCalendar calendarData(final Locale locale) {
         return MultiLocaleValue.findValue(this.calendarData, locale);
     }
 
-    private final List<MultiLocaleValue<int[]>> calendarData;
+    private final List<MultiLocaleValue<TimeZoneCalendar>> calendarData;
 
     @Override
     public String getDisplayName(final boolean daylightTime,

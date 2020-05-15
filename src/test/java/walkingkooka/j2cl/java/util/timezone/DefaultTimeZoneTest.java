@@ -20,6 +20,7 @@ package walkingkooka.j2cl.java.util.timezone;
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.list.Lists;
+import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
 
@@ -86,11 +87,11 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
 
         for (final String languageTag : locales) {
             final Locale locale = Locale.forLanguageTag(languageTag);
-            final int[] data = defaultTimeZone.calendarData(locale);
+            final TimeZoneCalendar data = defaultTimeZone.calendarData(locale);
 
             final Calendar calendar = Calendar.getInstance(jreTimeZone, locale);
-            assertEquals(calendar.getFirstDayOfWeek(), data[0], () -> "firstDayOfWeek timeZone: " + timeZoneId + " locale: " + locale);
-            assertEquals(calendar.getMinimalDaysInFirstWeek(), data[1], () -> "minimalDaysInFirstWeek timeZone: " + timeZoneId + " locale: " + locale);
+            assertEquals(calendar.getFirstDayOfWeek(), data.firstDayOfWeek, () -> "firstDayOfWeek timeZone: " + timeZoneId + " locale: " + locale);
+            assertEquals(calendar.getMinimalDaysInFirstWeek(), data.minimalDaysInFirstWeek, () -> "minimalDaysInFirstWeek timeZone: " + timeZoneId + " locale: " + locale);
         }
     }
 
