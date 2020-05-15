@@ -45,7 +45,7 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
 
     @Test
     public void testAllMethodsVisibility() {
-        // complains that DefaultTimeZone.calendarData
+        // complains that DefaultTimeZone.timeZoneCalendar
     }
 
     @Test
@@ -64,30 +64,30 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
                 "invalid locales");
     }
 
-    // calendarData.....................................................................................................
+    // timeZoneCalendar.....................................................................................................
 
     @Test
-    public void testCalendarDataENAU() {
-        calendarDataAndCheck("Australia/Sydney", "EN-AU");
+    public void testtimeZoneCalendarENAU() {
+        timeZoneCalendarAndCheck("Australia/Sydney", "EN-AU");
     }
 
     @Test
-    public void testCalendarDataENNZ() {
-        calendarDataAndCheck("Australia/Sydney", "EN-NZ");
+    public void testtimeZoneCalendarENNZ() {
+        timeZoneCalendarAndCheck("Australia/Sydney", "EN-NZ");
     }
 
     @Test
-    public void testCalendarDataDEDE() {
-        calendarDataAndCheck("Australia/Sydney", "DE-DE");
+    public void testtimeZoneCalendarDEDE() {
+        timeZoneCalendarAndCheck("Australia/Sydney", "DE-DE");
     }
 
-    private void calendarDataAndCheck(final String timeZoneId, final String... locales) {
+    private void timeZoneCalendarAndCheck(final String timeZoneId, final String... locales) {
         final DefaultTimeZone defaultTimeZone = DefaultTimeZone.getDefaultTimeZone(timeZoneId);
         final java.util.TimeZone jreTimeZone = java.util.TimeZone.getTimeZone(timeZoneId);
 
         for (final String languageTag : locales) {
             final Locale locale = Locale.forLanguageTag(languageTag);
-            final TimeZoneCalendar data = defaultTimeZone.calendarData(locale);
+            final TimeZoneCalendar data = defaultTimeZone.timeZoneCalendar(locale);
 
             final Calendar calendar = Calendar.getInstance(jreTimeZone, locale);
             assertEquals(calendar.getFirstDayOfWeek(), data.firstDayOfWeek, () -> "firstDayOfWeek timeZone: " + timeZoneId + " locale: " + locale);

@@ -20,6 +20,9 @@ import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Assert;
 import org.junit.Test;
 import walkingkooka.collect.list.Lists;
+import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
+import walkingkooka.j2cl.locale.TimeZoneCalendar;
+import walkingkooka.j2cl.locale.TimeZoneDisplay;
 import walkingkooka.text.CharSequences;
 
 import java.util.Arrays;
@@ -49,6 +52,14 @@ public class JunitTest {
         Assert.assertEquals("TimeZone " + CharSequences.quote(id),
                 offset * 60 * 60 * 1000,
                 TimeZone.getTimeZone(id).getRawOffset());
+    }
+
+    @Test
+    public void testTimeZoneCalendar() {
+        final Object timeZone = TimeZone.getTimeZone("Australia/Sydney");
+        final HasTimeZoneCalendar has = (HasTimeZoneCalendar) timeZone;
+        Assert.assertEquals(TimeZoneCalendar.with(2, 1),
+                has.timeZoneCalendar(Locale.forLanguageTag("EU-AU")));
     }
 
     @Test
