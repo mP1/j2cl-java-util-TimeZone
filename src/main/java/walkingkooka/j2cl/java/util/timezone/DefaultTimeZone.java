@@ -20,6 +20,8 @@ package walkingkooka.j2cl.java.util.timezone;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
+import walkingkooka.j2cl.locale.Calendar;
+import walkingkooka.j2cl.locale.GregorianCalendar;
 import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
@@ -194,9 +196,49 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
 
     private final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales;
 
+    // copied from Apache Harmony, with messages inlined or improved
     @Override
-    public int getOffset(int era, int year, int month, int day, int dayOfWeek, int time) {
+    public int getOffset(final int era, final int year, final int month, final int day, final int dayOfWeek, final int time) {
+        if (era != GregorianCalendar.BC && era != GregorianCalendar.AD) {
+            //throw new IllegalArgumentException(Messages.getString("luni.3C", era)); //$NON-NLS-1$
+            throw new IllegalArgumentException("Invalid era: " + era); //$NON-NLS-1$
+        }
+        checkRange(month, dayOfWeek, time);
+        if (month != Calendar.FEBRUARY || day != 29 || !isLeapYear(year)) {
+            checkDay(month, day);
+        }
+
         throw new UnsupportedOperationException();
+    }
+
+    private void checkRange(int month, int dayOfWeek, int time) {
+        if (month < Calendar.JANUARY || month > Calendar.DECEMBER) {
+            //throw new IllegalArgumentException(Messages.getString("luni.3D", month)); //$NON-NLS-1$
+            throw new IllegalArgumentException("Invalid month: " + month); //$NON-NLS-1$
+        }
+        if (dayOfWeek < Calendar.SUNDAY || dayOfWeek > Calendar.SATURDAY) {
+//            throw new IllegalArgumentException(Messages
+//                    .getString("luni.48", dayOfWeek)); //$NON-NLS-1$
+            throw new IllegalArgumentException("Invalid dayOfWeek: " + dayOfWeek);
+        }
+        if (time < 0 || time >= 24 * 3600000) {
+//            throw new IllegalArgumentException(Messages.getString("luni.3E", time)); //$NON-NLS-1$
+            throw new IllegalArgumentException("Invalid time " + time);
+        }
+    }
+
+    private void checkDay(int month, int day) {
+        if (day <= 0 || day > GregorianCalendar.DaysInMonth[month]) {
+            //throw new IllegalArgumentException(Messages.getString("luni.3F", day)); //$NON-NLS-1$
+            throw new IllegalArgumentException("Invalid day " + day + " must be between 0 and " + GregorianCalendar.DaysInMonth[month]); //$NON-NLS-1$
+        }
+    }
+
+    private boolean isLeapYear(int year) {
+        if (year > 1582) {
+            return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+        }
+        return year % 4 == 0;
     }
 
     @Override
