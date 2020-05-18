@@ -19,16 +19,14 @@ package test;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Assert;
 import org.junit.Test;
-import walkingkooka.collect.list.Lists;
+import walkingkooka.j2cl.locale.Calendar;
+import walkingkooka.j2cl.locale.GregorianCalendar;
 import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
-import walkingkooka.j2cl.locale.TimeZoneDisplay;
 import walkingkooka.text.CharSequences;
 
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 @J2clTestInput(JunitTest.class)
 public class JunitTest {
@@ -61,6 +59,60 @@ public class JunitTest {
         Assert.assertEquals(TimeZoneCalendar.with(2, 1),
                 has.timeZoneCalendar(Locale.forLanguageTag("EU-AU")));
     }
+
+    // getOffset........................................................................................................
+
+    @Test
+    public void testGetOffsetAustraliaSydney202005181432() {
+        this.getOffsetAndCheck("Australia/Sydney",
+                GregorianCalendar.AD,
+                2020,
+                Calendar.MAY,
+                18,
+                Calendar.MONDAY, // day of Week guessed
+                0,
+                10 * 60 * 60 * 1000);
+    }
+
+    @Test
+    public void testGetOffsetEuropeParis202005181432() {
+        this.getOffsetAndCheck("Europe/Paris",
+                GregorianCalendar.AD,
+                2020,
+                Calendar.MAY,
+                18,
+                Calendar.MONDAY, // day of Week guessed
+                0,
+                1 * 60 * 60 * 1000);
+    }
+
+    @Test
+    public void testGetOffsetEuropeLondon202005181432() {
+        this.getOffsetAndCheck("Europe/London",
+                GregorianCalendar.AD,
+                2020,
+                Calendar.MAY,
+                18,
+                Calendar.MONDAY, // day of Week guessed
+                0,
+                0 * 60 * 60 * 1000);
+    }
+
+    private void getOffsetAndCheck(final String timeZone,
+                                   final int era,
+                                   final int year,
+                                   final int month,
+                                   final int day,
+                                   final int dayOfWeek,
+                                   final int time,
+                                   final long offset) {
+        Assert.assertEquals("TimeZone " + CharSequences.quote(timeZone) + " getOffset(era=" + era + ", year=" + year + ", month=" + month + ", day=" + day + ", dayOfWeek=" + dayOfWeek + ", time=" + time + ")",
+                offset,
+                TimeZone.getTimeZone(timeZone)
+                        .getOffset(era, year - 1900, month, day, dayOfWeek, time));
+    }
+
+    // getDisplay.......................................................................................................
 
     @Test
     public void testGetDisplayNameAustraliaSydneyEnAULong() {

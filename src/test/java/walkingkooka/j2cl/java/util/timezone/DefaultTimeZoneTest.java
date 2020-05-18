@@ -143,22 +143,6 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
                 () -> DefaultTimeZone.getDefaultTimeZone("Australia/Sydney").getOffset(era, year, month, day, dayOfWeek, time));
     }
 
-    @Test
-    public void testGetOffset() {
-        this.getOffsetAndCheck(GregorianCalendar.AD, 1999, 11, 31, 1, 9999, 123);
-    }
-
-    private void getOffsetAndCheck(final int era,
-                                   final int year,
-                                   final int month,
-                                   final int day,
-                                   final int dayOfWeek,
-                                   final int time,
-                                   final int offset) {
-        assertThrows(UnsupportedOperationException.class,
-                () -> DefaultTimeZone.getDefaultTimeZone("Australia/Sydney").getOffset(era, year, month, day, dayOfWeek, time));
-    }
-
     // getDisplayName....................................................................................................
 
     @Test
