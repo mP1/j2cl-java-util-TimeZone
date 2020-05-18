@@ -25,6 +25,7 @@ import walkingkooka.j2cl.locale.GregorianCalendar;
 import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
+import walkingkooka.j2cl.locale.TimeZoneOffsetProvider;
 import walkingkooka.predicate.Predicates;
 
 import java.io.DataInput;
@@ -58,6 +59,8 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
             final String timeZoneId = data.readUTF();
             final int rawOffset = data.readInt();
 
+            final TimeZoneOffsetProvider offsets = TimeZoneOffsetProvider.read(rawOffset, data);
+
             final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar = Lists.array();
             {
                 final TimeZoneCalendar calendar = TimeZoneCalendar.read(data);
@@ -86,6 +89,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
             displayLocales.add(MultiLocaleValue.with(defaultDisplay, Predicates.always()));
             new DefaultTimeZone(timeZoneId,
                     rawOffset,
+                    offsets,
                     timeZoneCalendar,
                     displayLocales);
         }
@@ -152,53 +156,25 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
      */
     private DefaultTimeZone(final String id,
                             final int rawOffset,
+                            final TimeZoneOffsetProvider offsets,
                             final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
                             final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
         super(id, rawOffset);
+        this.offsets = offsets;
         this.timeZoneCalendar = timeZoneCalendar;
         this.allDisplayLocales = allDisplayLocales;
 
         ZONEID_TO_DEFAULT_TIME_ZONE.put(id, this);
     }
 
-    // HasTimeZoneCalendar..............................................................................................
-    
-    /**
-     * This is only intended to be consumed by something emulating java.util.Calendar instances providing the firstDayOfWeek and
-     * minimalDaysInFirstWeek properties.
-     */
-    public TimeZoneCalendar timeZoneCalendar(final Locale locale) {
-        return MultiLocaleValue.findValue(this.timeZoneCalendar, locale);
-    }
-
-    private final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar;
-
-    @Override
-    public String getDisplayName(final boolean daylightTime,
-                                 final int style,
-                                 final Locale locale) {
-        final TimeZoneDisplay display = MultiLocaleValue.findValue(this.allDisplayLocales, locale);
-        final String text;
-
-        switch (style) {
-            case SHORT:
-                text = daylightTime ? display.shortDisplayNameDaylight : display.shortDisplayName;
-                break;
-            case LONG: // if not SHORT must be LONG.
-                text = daylightTime ? display.longDisplayNameDaylight : display.longDisplayName;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid style=" + style);
-        }
-
-        return text;
-    }
-
-    private final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales;
-
     // copied from Apache Harmony, with messages inlined or improved
     @Override
-    public int getOffset(final int era, final int year, final int month, final int day, final int dayOfWeek, final int time) {
+    public int getOffset(final int era,
+                         final int year,
+                         final int month,
+                         final int day,
+                         final int dayOfWeek,
+                         final int time) {
         if (era != GregorianCalendar.BC && era != GregorianCalendar.AD) {
             //throw new IllegalArgumentException(Messages.getString("luni.3C", era)); //$NON-NLS-1$
             throw new IllegalArgumentException("Invalid era: " + era); //$NON-NLS-1$
@@ -208,8 +184,15 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
             checkDay(month, day);
         }
 
-        throw new UnsupportedOperationException();
+        return offsets.getOffset(era,
+                year,
+                month,
+                day,
+                dayOfWeek,
+                time);
     }
+
+    private final TimeZoneOffsetProvider offsets;
 
     private void checkRange(int month, int dayOfWeek, int time) {
         if (month < Calendar.JANUARY || month > Calendar.DECEMBER) {
@@ -250,6 +233,43 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
     public boolean useDaylightTime() {
         throw new UnsupportedOperationException();
     }
+
+    // HasTimeZoneCalendar..............................................................................................
+
+    /**
+     * This is only intended to be consumed by something emulating java.util.Calendar instances providing the firstDayOfWeek and
+     * minimalDaysInFirstWeek properties.
+     */
+    public TimeZoneCalendar timeZoneCalendar(final Locale locale) {
+        return MultiLocaleValue.findValue(this.timeZoneCalendar, locale);
+    }
+
+    private final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar;
+
+    @Override
+    public String getDisplayName(final boolean daylightTime,
+                                 final int style,
+                                 final Locale locale) {
+        final TimeZoneDisplay display = MultiLocaleValue.findValue(this.allDisplayLocales, locale);
+        final String text;
+
+        switch (style) {
+            case SHORT:
+                text = daylightTime ? display.shortDisplayNameDaylight : display.shortDisplayName;
+                break;
+            case LONG: // if not SHORT must be LONG.
+                text = daylightTime ? display.longDisplayNameDaylight : display.longDisplayName;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid style=" + style);
+        }
+
+        return text;
+    }
+
+    private final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales;
+
+    // Object...........................................................................................................
 
     @Override
     public String toString() {
