@@ -19,6 +19,7 @@ package walkingkooka.j2cl.java.util.timezone;
 
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.j2cl.java.util.locale.support.LocaleSupport;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
 import walkingkooka.j2cl.locale.Calendar;
 import walkingkooka.j2cl.locale.GregorianCalendar;
@@ -34,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -67,7 +69,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
 
                 final int calendarToLocalesCount = data.readInt();
                 for(int c = 0; c < calendarToLocalesCount; c++) {
-                    final List<Locale> locales = readLocale(data);
+                    final Set<Locale> locales = LocaleSupport.readLocales(data);
                     timeZoneCalendar.add(multiLocaleValue(TimeZoneCalendar.read(data),
                             locales::contains));
                 }
@@ -80,7 +82,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
 
             final int displayCount = data.readInt();
             for (int d = 0; d < displayCount; d++) {
-                final List<Locale> locales =readLocale(data);
+                final Set<Locale> locales = LocaleSupport.readLocales(data);
                 final MultiLocaleValue<TimeZoneDisplay> displayAndLocales = MultiLocaleValue.with(TimeZoneDisplay.read(data),
                         locales::contains);
                 displayLocales.add(displayAndLocales);
@@ -93,18 +95,6 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
                     timeZoneCalendar,
                     displayLocales);
         }
-    }
-
-    private static List<Locale> readLocale(final DataInput data) throws IOException {
-        final List<Locale> locales = Lists.array();
-
-        final int localeCount = data.readInt();
-        for (int ll = 0; ll < localeCount; ll++) {
-            final Locale locale = Locale.forLanguageTag(data.readUTF());
-            locales.add(locale);
-        }
-
-        return locales;
     }
 
     private static MultiLocaleValue<TimeZoneCalendar> multiLocaleValue(final TimeZoneCalendar calendar,
