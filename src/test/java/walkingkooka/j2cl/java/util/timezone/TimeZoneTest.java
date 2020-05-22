@@ -19,7 +19,7 @@ package walkingkooka.j2cl.java.util.timezone;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.list.Lists;
-import walkingkooka.j2cl.Calendar;
+import walkingkooka.j2cl.locale.Calendar;
 import walkingkooka.j2cl.locale.TimeZoneOffsetProvider;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
