@@ -143,6 +143,44 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
                 () -> DefaultTimeZone.getDefaultTimeZone("Australia/Sydney").getOffset(era, year, month, day, dayOfWeek, time));
     }
 
+    // getOffset........................................................................................................
+
+    @Test
+    public void testGetOffset5IntAustraliaSydney202005181432() {
+        this.getOffset5IntAndCheck("Australia/Sydney",
+                GregorianCalendar.AD,
+                2020,
+                Calendar.MAY,
+                18,
+                Calendar.MONDAY, // day of Week guessed
+                0);
+    }
+
+    @Test
+    public void testGetOffset5IntEuropeParis202005181432() {
+        this.getOffset5IntAndCheck("Australia/Perth",
+                GregorianCalendar.AD,
+                2020,
+                Calendar.MAY,
+                18,
+                Calendar.MONDAY, // day of Week guessed
+                0);
+    }
+
+    private void getOffset5IntAndCheck(final String timeZone,
+                                       final int era,
+                                       final int year,
+                                       final int month,
+                                       final int day,
+                                       final int dayOfWeek,
+                                       final int time) {
+        assertEquals(java.util.TimeZone.getTimeZone(timeZone)
+                        .getOffset(era, year, month, day, dayOfWeek, time),
+                TimeZone.getTimeZone(timeZone)
+                        .getOffset(era, year, month, day, dayOfWeek, time),
+                () -> "TimeZone " + CharSequences.quote(timeZone) + " getOffset(era=" + era + ", year=" + year + ", month=" + month + ", day=" + day + ", dayOfWeek=" + dayOfWeek + ", time=" + time + ")");
+    }
+
     // getDisplayName....................................................................................................
 
     @Test

@@ -20,7 +20,6 @@ package walkingkooka.j2cl.java.util.timezone;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.j2cl.locale.Calendar;
-import walkingkooka.j2cl.locale.TimeZoneOffsetProvider;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
 
@@ -168,8 +167,8 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
     }
 
     @Test
-    public void testGetOffsetEuropeLondon202005181432() {
-        this.getOffsetAndCheck("Europe/London",
+    public void testGetOffsetAustraliaPerth202005181432() {
+        this.getOffsetAndCheck("Australia/Perth",
                 2020,
                 Calendar.MAY,
                 18,
@@ -184,24 +183,27 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
                                    final int hours,
                                    final int minutes) {
         final int era = GregorianCalendar.AD;
-        final java.util.TimeZone timeZone = java.util.TimeZone.getTimeZone(timeZoneId);
+        final java.util.TimeZone jreTimeZone = java.util.TimeZone.getTimeZone(timeZoneId);
 
         final int dayOfWeek = LocalDate.of(year, 1 + month, day).getDayOfWeek().getValue();
         final int millis = (int)(Duration.ofHours(hours).toMillis() + Duration.ofMinutes(minutes).toMillis());
 
-        final long jreRawOffset = timeZone.getRawOffset();
-        final TimeZoneOffsetProvider provider = TimeZoneOffsetProvider.collect(timeZone);
+        final long jreRawOffset = jreTimeZone.getRawOffset();
+        final TimeZone emulatedTimeZone = TimeZone.getTimeZone(timeZoneId);
+        assertNotEquals(null,
+                emulatedTimeZone,
+                () -> "Unknown timeZoneId: " + CharSequences.quoteAndEscape(timeZoneId));
 
         final Date date = new Date(millis);
         {
-            final long jreOffset = timeZone.getOffset(era,
-                    year - TimeZoneOffsetProvider.YEAR_BIAS,
+            final long jreOffset = jreTimeZone.getOffset(era,
+                    year - YEAR_BIAS,
                     month,
                     day,
                     dayOfWeek,
                     millis);
-            final long emulatedOffset = provider.getOffset(era,
-                    year - TimeZoneOffsetProvider.YEAR_BIAS,
+            final long emulatedOffset = emulatedTimeZone.getOffset(era,
+                    year,
                     month,
                     day,
                     dayOfWeek,
@@ -209,14 +211,15 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
 
             final Supplier<String> message = () -> CharSequences.quoteAndEscape(timeZoneId) +
                     " jreRawOffset: " + duration(jreRawOffset).toString().substring(2) +
-                    " getOffset AD, " + //
-                    date;
+                    " getOffset " + year + "/" + month + "/" + day + " " + hours + ":" + minutes + " dow: " + dayOfWeek + " date: " + date;
 
             assertEquals(duration(jreOffset),
                     duration(emulatedOffset),
                     message);
         }
     }
+
+    private final static int YEAR_BIAS = 1900;
 
     private Duration duration(final long millis) {
         return Duration.ofMillis(millis);
