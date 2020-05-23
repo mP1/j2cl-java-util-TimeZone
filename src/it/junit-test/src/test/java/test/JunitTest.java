@@ -83,7 +83,7 @@ public class JunitTest {
                 18,
                 Calendar.MONDAY, // day of Week guessed
                 0,
-                1 * 60 * 60 * 1000);
+                2 * 60 * 60 * 1000);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class JunitTest {
                 18,
                 Calendar.MONDAY, // day of Week guessed
                 0,
-                0 * 60 * 60 * 1000);
+                1 * 60 * 60 * 1000);
     }
 
     private void getOffsetAndCheck(final String timeZone,
@@ -109,7 +109,7 @@ public class JunitTest {
         Assert.assertEquals("TimeZone " + CharSequences.quote(timeZone) + " getOffset(era=" + era + ", year=" + year + ", month=" + month + ", day=" + day + ", dayOfWeek=" + dayOfWeek + ", time=" + time + ")",
                 offset,
                 TimeZone.getTimeZone(timeZone)
-                        .getOffset(era, year - 1900, month, day, dayOfWeek, time));
+                        .getOffset(era, year, month, day, dayOfWeek, time));
     }
 
     // getDisplay.......................................................................................................
