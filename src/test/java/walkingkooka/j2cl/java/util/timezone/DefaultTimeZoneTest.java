@@ -22,9 +22,11 @@ import walkingkooka.ToStringTesting;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.j2cl.locale.GregorianCalendar;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
+import walkingkooka.j2cl.locale.org.threeten.bp.zone.ZoneRules;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CharSequences;
 
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
@@ -254,6 +256,24 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
         assertEquals(jre.getDisplayName(daylight, style, locale),
                 emulated.getDisplayName(daylight, style, locale),
                 () -> "getDisplayName zoneId=" + emulated.getID() + " daylight=" + daylight + " style=" + (java.util.TimeZone.SHORT == style ? "SHORT" : "LONG") + " locale=" + locale);
+    }
+
+    // useDaylightTime..................................................................................................
+
+    @Test
+    public void testUseDaylightTimeAustraliaSydney() throws Exception {
+        this.useDaylightTimeAndCheck("Australia/Sydney");
+    }
+
+    @Test
+    public void testUseDaylightTimeAustraliaPerth() throws Exception {
+        this.useDaylightTimeAndCheck("Australia/Perth");
+    }
+
+    private void useDaylightTimeAndCheck(final String zoneId) throws Exception {
+        assertEquals(java.util.TimeZone.getTimeZone(zoneId).useDaylightTime(),
+                ZoneRules.of(ZoneId.of(zoneId)).useDaylightTime(),
+                () -> "useDaylightTime for zoneId " + CharSequences.quoteAndEscape(zoneId));
     }
 
     // ToString.........................................................................................................

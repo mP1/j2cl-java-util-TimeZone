@@ -175,12 +175,12 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
         return this.zoneRules.inDaylightTime(time);
     }
 
-    private final StandardZoneRules zoneRules;
-
     @Override
     public boolean useDaylightTime() {
-        throw new UnsupportedOperationException();
+        return this.zoneRules.useDaylightTime();
     }
+
+    private final StandardZoneRules zoneRules;
 
     // HasTimeZoneCalendar..............................................................................................
 
