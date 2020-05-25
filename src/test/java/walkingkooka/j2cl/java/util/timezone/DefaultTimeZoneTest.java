@@ -258,6 +258,24 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
                 () -> "getDisplayName zoneId=" + emulated.getID() + " daylight=" + daylight + " style=" + (java.util.TimeZone.SHORT == style ? "SHORT" : "LONG") + " locale=" + locale);
     }
 
+    // observesDaylightTime..................................................................................................
+
+    @Test
+    public void testObservesDaylightTimeAustraliaSydney() throws Exception {
+        this.observesDaylightTimeAndCheck("Australia/Sydney");
+    }
+
+    @Test
+    public void testObservesDaylightTimeAustraliaPerth() throws Exception {
+        this.observesDaylightTimeAndCheck("Australia/Perth");
+    }
+
+    private void observesDaylightTimeAndCheck(final String zoneId) throws Exception {
+        assertEquals(java.util.TimeZone.getTimeZone(zoneId).observesDaylightTime(),
+                ZoneRules.of(ZoneId.of(zoneId)).observesDaylightTime(),
+                () -> "observesDaylightTime for zoneId " + CharSequences.quoteAndEscape(zoneId));
+    }
+    
     // useDaylightTime..................................................................................................
 
     @Test

@@ -218,6 +218,8 @@ public abstract class TimeZone {
      */
     abstract public boolean inDaylightTime(Date time);
 
+    abstract public boolean observesDaylightTime();
+
     /**
      * Returns whether this {@code TimeZone} has a daylight savings time period.
      *

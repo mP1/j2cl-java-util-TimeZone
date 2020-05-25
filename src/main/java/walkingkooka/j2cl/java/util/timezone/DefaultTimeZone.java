@@ -176,6 +176,11 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
     }
 
     @Override
+    public boolean observesDaylightTime() {
+        return this.zoneRules.observesDaylightTime();
+    }
+
+    @Override
     public boolean useDaylightTime() {
         return this.zoneRules.useDaylightTime();
     }

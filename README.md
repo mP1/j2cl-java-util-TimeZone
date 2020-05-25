@@ -27,7 +27,6 @@ This project aims to provide a mostly complete pure Java `java.util.TimeZone`.
 
 `java.util.TimeZone`
 
-- observesDaylightTime() missing
 - setId throws UnsupportedOperationException, timezones are immutable
 
 `java.util.SimpleTimeZone`
