@@ -27,11 +27,8 @@ This project aims to provide a mostly complete pure Java `java.util.TimeZone`.
 
 `java.util.TimeZone`
 
-- getOffset (all overloads) throws UnsupportedOperationException
-- inDaylightTime(Date) throws UnsupportedOperationException
 - observesDaylightTime() missing
 - setId throws UnsupportedOperationException, timezones are immutable
-- useDaylightTime throws UnsupportedOperationException
 
 `java.util.SimpleTimeZone`
 - Class missing
