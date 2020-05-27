@@ -224,6 +224,14 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
 
     // Object...........................................................................................................
 
+    /**
+     * {@link DefaultTimeZone} is immutable so clone always returns this.
+     */
+    @Override
+    public TimeZone clone() {
+        return this;
+    }
+
     @Override
     public String toString() {
         return this.getID();

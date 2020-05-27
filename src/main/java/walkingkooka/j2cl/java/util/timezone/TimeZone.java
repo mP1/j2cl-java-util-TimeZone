@@ -309,6 +309,11 @@ public abstract class TimeZone {
     }
 
     /**
+     * Required as clone is missing in javascript
+     */
+    public abstract Object clone();
+
+    /**
      * Consumes {@link TimeZoneProvider#DATA} creating a {@link TimeZone} for each record.
      */
     static {

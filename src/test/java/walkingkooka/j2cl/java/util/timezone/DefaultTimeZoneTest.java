@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
@@ -292,6 +293,14 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
         assertEquals(java.util.TimeZone.getTimeZone(zoneId).useDaylightTime(),
                 ZoneRules.of(ZoneId.of(zoneId)).useDaylightTime(),
                 () -> "useDaylightTime for zoneId " + CharSequences.quoteAndEscape(zoneId));
+    }
+
+    // clone............................................................................................................
+
+    @Test
+    public void testClone() {
+        final DefaultTimeZone timeZone = DefaultTimeZone.getDefaultTimeZone("Australia/Sydney");
+        assertSame(timeZone, timeZone);
     }
 
     // ToString.........................................................................................................
