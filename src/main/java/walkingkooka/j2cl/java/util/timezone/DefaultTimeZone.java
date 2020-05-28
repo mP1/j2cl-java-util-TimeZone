@@ -81,12 +81,13 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
             final int displayCount = data.readInt();
             for (int d = 0; d < displayCount; d++) {
                 final Set<Locale> locales = LocaleSupport.readLocales(data);
-                final MultiLocaleValue<TimeZoneDisplay> displayAndLocales = MultiLocaleValue.with(TimeZoneDisplay.read(data),
+                final MultiLocaleValue<TimeZoneDisplay> displayAndLocales = multiLocaleValue(TimeZoneDisplay.read(data),
                         locales::contains);
                 displayLocales.add(displayAndLocales);
             }
 
-            displayLocales.add(MultiLocaleValue.with(defaultDisplay, Predicates.always()));
+            displayLocales.add(multiLocaleValue(defaultDisplay,
+                    Predicates.always()));
             new DefaultTimeZone(timeZoneId,
                     rawOffset,
                     offsets,
@@ -95,9 +96,11 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
         }
     }
 
-    private static MultiLocaleValue<TimeZoneCalendar> multiLocaleValue(final TimeZoneCalendar calendar,
-                                                                       final Predicate<Locale> locales) {
-        return MultiLocaleValue.with(calendar, locales);
+    private static <T> MultiLocaleValue<T> multiLocaleValue(final T calendar,
+                                                            final Predicate<Locale> locales) {
+        return MultiLocaleValue.with(calendar,
+                locales,
+                LocaleSupport.INCLUDE_NORWAY);
     }
 
     /**
