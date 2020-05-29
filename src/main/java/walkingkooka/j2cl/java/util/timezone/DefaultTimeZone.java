@@ -17,15 +17,14 @@
 
 package walkingkooka.j2cl.java.util.timezone;
 
-import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.j2cl.java.util.locale.support.LocaleSupport;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
+import walkingkooka.j2cl.java.util.timezone.support.TimeZoneProviderReader;
 import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
+import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
 import walkingkooka.j2cl.locale.org.threeten.bp.zone.StandardZoneRules;
-import walkingkooka.predicate.Predicates;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -33,12 +32,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
 
 /**
- * The default {@link TimeZone} instances created from the data by {@link TimeZoneProvider#DATA}
+ * The default {@link TimeZone} instances created from the data by {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider#DATA}
  */
+@LocaleAware
 final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
 
     /**
@@ -50,57 +48,29 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
      * Intended to only be called by the static init above. A test exists to verify the {@link DataInput} is consumed
      * and further operations will fail with an {@link java.io.EOFException}.
      */
-    static void register(final DataInput data) throws IOException {
+    static void register() {
         ZONEID_TO_DEFAULT_TIME_ZONE = Maps.sorted(); // field is null on travis w/ openjdk9.
 
-        final int count = data.readInt();
+        new TimeZoneProviderReader<StandardZoneRules>() {
 
-        for (int z = 0; z < count; z++) {
-            final String timeZoneId = data.readUTF();
-            final int rawOffset = data.readInt();
-
-            final StandardZoneRules offsets = StandardZoneRules.readExternal(data);
-
-            final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar = Lists.array();
-            {
-                final TimeZoneCalendar calendar = TimeZoneCalendar.read(data);
-
-                final int calendarToLocalesCount = data.readInt();
-                for(int c = 0; c < calendarToLocalesCount; c++) {
-                    final Set<Locale> locales = LocaleSupport.readLocales(data);
-                    timeZoneCalendar.add(multiLocaleValue(TimeZoneCalendar.read(data),
-                            locales::contains));
-                }
-
-                timeZoneCalendar.add(multiLocaleValue(calendar, Predicates.always())); // default goes last and matches any locale
+            @Override
+            public StandardZoneRules readZoneRules(final DataInput data) throws IOException {
+                return StandardZoneRules.readExternal(data);
             }
 
-            final List<MultiLocaleValue<TimeZoneDisplay>> displayLocales = Lists.array();
-            final TimeZoneDisplay defaultDisplay = TimeZoneDisplay.read(data);
-
-            final int displayCount = data.readInt();
-            for (int d = 0; d < displayCount; d++) {
-                final Set<Locale> locales = LocaleSupport.readLocales(data);
-                final MultiLocaleValue<TimeZoneDisplay> displayAndLocales = multiLocaleValue(TimeZoneDisplay.read(data),
-                        locales::contains);
-                displayLocales.add(displayAndLocales);
+            @Override
+            public void record(final String id,
+                               final int rawOffset,
+                               final StandardZoneRules zoneRules,
+                               final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
+                               final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
+                new DefaultTimeZone(id,
+                        rawOffset,
+                        zoneRules,
+                        timeZoneCalendar,
+                        allDisplayLocales);
             }
-
-            displayLocales.add(multiLocaleValue(defaultDisplay,
-                    Predicates.always()));
-            new DefaultTimeZone(timeZoneId,
-                    rawOffset,
-                    offsets,
-                    timeZoneCalendar,
-                    displayLocales);
-        }
-    }
-
-    private static <T> MultiLocaleValue<T> multiLocaleValue(final T calendar,
-                                                            final Predicate<Locale> locales) {
-        return MultiLocaleValue.with(calendar,
-                locales,
-                LocaleSupport.INCLUDE_NORWAY);
+        }.read(walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider.DATA);
     }
 
     /**
@@ -143,7 +113,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
     }
 
     /**
-     * Constructor only called by {@link #register(DataInput)}.
+     * Constructor only called by {@link #register()}.
      */
     private DefaultTimeZone(final String id,
                             final int rawOffset,

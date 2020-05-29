@@ -17,17 +17,13 @@
 
 package walkingkooka.j2cl.java.util.timezone;
 
-import walkingkooka.j2cl.java.io.string.StringDataInputDataOutput;
 import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.text.CharSequences;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-@LocaleAware
 public abstract class TimeZone {
 
     // available ids....................................................................................................
@@ -317,10 +313,6 @@ public abstract class TimeZone {
      * Consumes {@link TimeZoneProvider#DATA} creating a {@link TimeZone} for each record.
      */
     static {
-        try {
-            DefaultTimeZone.register(StringDataInputDataOutput.input(TimeZoneProvider.DATA));
-        } catch (final IOException cause) {
-            throw new Error(cause);
-        }
+        DefaultTimeZone.register();
     }
 }

@@ -234,7 +234,7 @@
                 <configuration>
                     <excludes>
                         <exclude>walkingkooka/j2cl/java/util/locale/LocaleProvider*</exclude>
-                        <exclude>walkingkooka/j2cl/java/util/timezone/TimeZoneProvider*</exclude>
+                        <exclude>walkingkooka/j2cl/java/util/timezone/support/TimeZoneProvider.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -245,7 +245,7 @@
                 <configuration>
                     <excludes>
                         <exclude>walkingkooka/j2cl/java/util/locale/LocaleProvider*</exclude>
-                        <exclude>walkingkooka/j2cl/java/util/timezone/TimeZoneProvider*</exclude>
+                        <exclude>walkingkooka/j2cl/java/util/timezone/support/TimeZoneProvider.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
