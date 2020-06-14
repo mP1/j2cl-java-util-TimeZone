@@ -92,10 +92,10 @@ public abstract class TimeZone {
     // @VisibleForTesting
     static TimeZone DEFAULT;
 
-    static String DEFAULT_TIMEZONE_SYSTEM_PROPERTY = "walkingkooka.j2cl.TimeZone";
+    static String DEFAULT_TIMEZONE_SYSTEM_PROPERTY = "walkingkooka.j2cl.java.util.timezone.TimeZone.DEFAULT";
 
     private static TimeZone getTimeZoneFromSystemProperty() {
-        final String defaultTimeZone = System.getProperty("walkingkooka.j2cl.TimeZone");// j2cl requires literal
+        final String defaultTimeZone = System.getProperty("walkingkooka.j2cl.java.util.timezone.TimeZone.DEFAULT");// j2cl requires literal
         if (CharSequences.isNullOrEmpty(defaultTimeZone)) {
             throw new IllegalStateException("Default timezone system property " + CharSequences.quote(DEFAULT_TIMEZONE_SYSTEM_PROPERTY) + " missing");
         }
