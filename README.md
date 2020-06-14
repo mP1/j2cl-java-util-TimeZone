@@ -15,6 +15,17 @@ This project aims to provide a mostly complete pure Java `java.util.TimeZone`.
 - Serialization is not supported, and all support classes and forms including magic methods such as `writeReplace` are removed.
 
 
+
+## defines
+
+A default `java.util.TimeZone` is required and must appear within the j2cl-maven-plugin [defines](https://github.com/mP1/j2cl-maven-plugin#defines) section. 
+
+```xml
+<walkingkooka.j2cl.java.util.timezone.TimeZone.DEFAULT>Australia/Sydney</walkingkooka.j2cl.java.util.timezone.TimeZoneDEFAULT>
+```
+
+
+
 ## Annotation processor arguments
 
 - See [j2cl-java-util-locale-annotation-processor](https://github.com/mP1/j2cl-java-util-locale-annotation-processor) for more info about selecting which locales get bundled.

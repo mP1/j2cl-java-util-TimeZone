@@ -32,6 +32,12 @@ import java.util.TimeZone;
 public class JunitTest {
 
     @Test
+    public void testTimeZoneDefault() {
+        final String hobart = "Australia/Hobart";
+        Assert.assertEquals(TimeZone.getTimeZone(hobart), TimeZone.getDefault());
+    }
+
+    @Test
     public void testRawOffsetSydney() {
         this.getRawOffsetAndCheck("Australia/Sydney", 10);
     }
@@ -148,14 +154,4 @@ public class JunitTest {
                                         final String expected) {
         Assert.assertEquals(expected, TimeZone.getTimeZone(timeZoneId).getDisplayName(daylight, style, Locale.forLanguageTag(locale)));
     }
-
-//    @Test
-//    public void testTimeZoneSetDefault() {
-//        final String hobart = "Australia/Hobart";
-//        System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, hobart);
-//
-//        final TimeZone newDefault = new SimpleTimeZone(123, "newDefault1");
-//        TimeZone.setDefault(newDefault);
-//        assertSame(newDefault, TimeZone.getDefault());
-//    }
 }
