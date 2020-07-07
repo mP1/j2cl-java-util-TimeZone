@@ -34,7 +34,7 @@ import java.util.function.Predicate;
 
 /**
  * Consumes {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider#DATA} calling a method with each record. {@link DefaultTimeZone}
- * and a ZoneRUleProvider in j2cl-java-time will sub class. This class exists in this package so it is not shaded.
+ * and a ZoneRuleProvider in j2cl-java-time will sub class.
  */
 abstract class TimeZoneProviderReader<R> {
 
