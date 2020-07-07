@@ -23,6 +23,7 @@ import walkingkooka.j2cl.java.util.locale.support.LocaleSupport;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
+import walkingkooka.j2cl.locale.TimeZoneOffsetAndDaylightSavings;
 import walkingkooka.predicate.Predicates;
 
 import java.io.DataInput;
@@ -36,7 +37,7 @@ import java.util.function.Predicate;
  * Consumes {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider#DATA} calling a method with each record. {@link DefaultTimeZone}
  * and a ZoneRuleProvider in j2cl-java-time will sub class.
  */
-abstract class TimeZoneProviderReader<R> {
+abstract class TimeZoneProviderReader {
 
     TimeZoneProviderReader() {
         super();
@@ -57,7 +58,7 @@ abstract class TimeZoneProviderReader<R> {
             final String timeZoneId = data.readUTF();
             final int rawOffset = data.readInt();
 
-            final R zoneRules = this.readZoneRules(data);
+            final TimeZoneOffsetAndDaylightSavings zoneRules = this.readZoneRules(data);
 
             final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar = Lists.array();
             {
@@ -94,7 +95,7 @@ abstract class TimeZoneProviderReader<R> {
         }
     }
 
-    abstract R readZoneRules(final DataInput data) throws IOException;
+    abstract TimeZoneOffsetAndDaylightSavings readZoneRules(final DataInput data) throws IOException;
 
     private static <T> MultiLocaleValue<T> multiLocaleValue(final T calendar,
                                                             final Predicate<Locale> locales) {
@@ -108,7 +109,7 @@ abstract class TimeZoneProviderReader<R> {
      */
     abstract void record(final String id,
                          final int rawOffset,
-                         final R zoneRules,
+                         final TimeZoneOffsetAndDaylightSavings zoneRules,
                          final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
                          final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales);
 }

@@ -23,6 +23,7 @@ import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
 import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
+import walkingkooka.j2cl.locale.TimeZoneOffsetAndDaylightSavings;
 import walkingkooka.j2cl.locale.org.threeten.bp.zone.StandardZoneRules;
 
 import java.io.DataInput;
@@ -50,17 +51,17 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
     static void register() {
         ZONEID_TO_DEFAULT_TIME_ZONE = Maps.sorted(); // field is null on travis w/ openjdk9.
 
-        new TimeZoneProviderReader<StandardZoneRules>() {
+        new TimeZoneProviderReader() {
 
             @Override
-            public StandardZoneRules readZoneRules(final DataInput data) throws IOException {
+            public TimeZoneOffsetAndDaylightSavings readZoneRules(final DataInput data) throws IOException {
                 return StandardZoneRules.readExternal(data);
             }
 
             @Override
             public void record(final String id,
                                final int rawOffset,
-                               final StandardZoneRules zoneRules,
+                               final TimeZoneOffsetAndDaylightSavings zoneRules,
                                final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
                                final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
                 new DefaultTimeZone(id,
@@ -116,7 +117,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
      */
     private DefaultTimeZone(final String id,
                             final int rawOffset,
-                            final StandardZoneRules zoneRules,
+                            final TimeZoneOffsetAndDaylightSavings zoneRules,
                             final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
                             final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
         super(id, rawOffset);
@@ -157,7 +158,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
         return this.zoneRules.useDaylightTime();
     }
 
-    private final StandardZoneRules zoneRules;
+    private final TimeZoneOffsetAndDaylightSavings zoneRules;
 
     // HasTimeZoneCalendar..............................................................................................
 

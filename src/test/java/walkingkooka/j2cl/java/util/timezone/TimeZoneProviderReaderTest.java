@@ -24,6 +24,7 @@ import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
 import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
+import walkingkooka.j2cl.locale.TimeZoneOffsetAndDaylightSavings;
 import walkingkooka.j2cl.locale.org.threeten.bp.zone.StandardZoneRules;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
@@ -38,7 +39,7 @@ public final class TimeZoneProviderReaderTest implements ClassTesting<TimeZonePr
 
     @Test
     public void testConsumeTimeZoneProviderData() {
-        new TimeZoneProviderReader<StandardZoneRules>() {
+        new TimeZoneProviderReader() {
 
             @Override
             StandardZoneRules readZoneRules(final DataInput data) throws IOException {
@@ -48,7 +49,7 @@ public final class TimeZoneProviderReaderTest implements ClassTesting<TimeZonePr
             @Override
             void record(final String id,
                         final int rawOffset,
-                        final StandardZoneRules zoneRules,
+                        final TimeZoneOffsetAndDaylightSavings zoneRules,
                         final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
                         final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
                 Assertions.assertEquals(true, ids.add(id));
