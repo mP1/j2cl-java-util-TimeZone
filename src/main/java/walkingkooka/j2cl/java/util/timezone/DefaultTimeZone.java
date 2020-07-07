@@ -19,7 +19,6 @@ package walkingkooka.j2cl.java.util.timezone;
 
 import walkingkooka.collect.map.Maps;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
-import walkingkooka.j2cl.java.util.timezone.support.TimeZoneProviderReader;
 import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
 import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
