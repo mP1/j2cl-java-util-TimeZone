@@ -15,7 +15,7 @@
  *
  */
 
-package walkingkooka.j2cl.java.util.timezone;
+package walkingkooka.j2cl.java.util.timezone.support;
 
 import walkingkooka.collect.list.Lists;
 import walkingkooka.j2cl.java.io.string.StringDataInputDataOutput;
@@ -34,16 +34,16 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * Consumes {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider#DATA} calling a method with each record. {@link DefaultTimeZone}
+ * Consumes {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider#DATA} calling a method with each record. {@link walkingkooka.j2cl.java.util.timezone.DefaultTimeZone}
  * and a ZoneRuleProvider in j2cl-java-time will sub class.
  */
-abstract class TimeZoneProviderReader {
+public abstract class TimeZoneProviderReader<T> {
 
-    TimeZoneProviderReader() {
+    protected TimeZoneProviderReader() {
         super();
     }
 
-    final void read(final String data) {
+    public final void read(final String data) {
         try {
             this.read0(StringDataInputDataOutput.input(data));
         } catch (final IOException cause) {
@@ -58,7 +58,7 @@ abstract class TimeZoneProviderReader {
             final String timeZoneId = data.readUTF();
             final int rawOffset = data.readInt();
 
-            final TimeZoneOffsetAndDaylightSavings zoneRules = this.readZoneRules(data);
+            final T zoneRules = this.readZoneRules(data);
 
             final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar = Lists.array();
             {
@@ -95,7 +95,7 @@ abstract class TimeZoneProviderReader {
         }
     }
 
-    abstract TimeZoneOffsetAndDaylightSavings readZoneRules(final DataInput data) throws IOException;
+    public abstract T readZoneRules(final DataInput data) throws IOException;
 
     private static <T> MultiLocaleValue<T> multiLocaleValue(final T calendar,
                                                             final Predicate<Locale> locales) {
@@ -105,11 +105,11 @@ abstract class TimeZoneProviderReader {
     }
 
     /**
-     * A {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider} record.
+     * Used to create a {@link walkingkooka.j2cl.java.util.timezone.DefaultTimeZone} from a {@link TimeZoneProvider} record.
      */
-    abstract void record(final String id,
-                         final int rawOffset,
-                         final TimeZoneOffsetAndDaylightSavings zoneRules,
-                         final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
-                         final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales);
+    public abstract void record(final String id,
+                                final int rawOffset,
+                                final T zoneRules,
+                                final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
+                                final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales);
 }

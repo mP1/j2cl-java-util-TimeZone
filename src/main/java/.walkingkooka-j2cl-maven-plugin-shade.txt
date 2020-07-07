@@ -1,5 +1,5 @@
 #
-# Dont shade TimeZoneProvider
+# Dont shade TimeZoneProvider and TimeZoneProviderReader. The later will be used in j2cl-java-time
 #
 walkingkooka.j2cl.java.util.timezone.support=walkingkooka.j2cl.java.util.timezone.support
 
