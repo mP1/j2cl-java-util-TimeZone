@@ -19,6 +19,7 @@ package walkingkooka.j2cl.java.util.timezone;
 
 import walkingkooka.collect.map.Maps;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
+import walkingkooka.j2cl.java.util.timezone.support.TimeZoneProviderReader;
 import walkingkooka.j2cl.locale.HasTimeZoneCalendar;
 import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
@@ -51,7 +52,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
     static void register() {
         ZONEID_TO_DEFAULT_TIME_ZONE = Maps.sorted(); // field is null on travis w/ openjdk9.
 
-        new TimeZoneProviderReader() {
+        new TimeZoneProviderReader<TimeZoneOffsetAndDaylightSavings>() {
 
             @Override
             public TimeZoneOffsetAndDaylightSavings readZoneRules(final DataInput data) throws IOException {
