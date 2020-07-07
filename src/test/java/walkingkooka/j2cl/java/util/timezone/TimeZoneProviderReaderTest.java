@@ -15,7 +15,7 @@
  *
  */
 
-package walkingkooka.j2cl.java.util.timezone.support;
+package walkingkooka.j2cl.java.util.timezone;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -41,16 +41,16 @@ public final class TimeZoneProviderReaderTest implements ClassTesting<TimeZonePr
         new TimeZoneProviderReader<StandardZoneRules>() {
 
             @Override
-            public StandardZoneRules readZoneRules(final DataInput data) throws IOException {
+            StandardZoneRules readZoneRules(final DataInput data) throws IOException {
                 return StandardZoneRules.readExternal(data);
             }
 
             @Override
-            public void record(final String id,
-                               final int rawOffset,
-                               final StandardZoneRules zoneRules,
-                               final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
-                               final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
+            void record(final String id,
+                        final int rawOffset,
+                        final StandardZoneRules zoneRules,
+                        final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
+                        final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales) {
                 Assertions.assertEquals(true, ids.add(id));
             }
 
@@ -65,6 +65,6 @@ public final class TimeZoneProviderReaderTest implements ClassTesting<TimeZonePr
 
     @Override
     public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
+        return JavaVisibility.PACKAGE_PRIVATE;
     }
 }

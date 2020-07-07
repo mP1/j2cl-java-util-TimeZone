@@ -15,7 +15,7 @@
  *
  */
 
-package walkingkooka.j2cl.java.util.timezone.support;
+package walkingkooka.j2cl.java.util.timezone;
 
 import walkingkooka.collect.list.Lists;
 import walkingkooka.j2cl.java.io.string.StringDataInputDataOutput;
@@ -33,16 +33,16 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * Consumes {@link TimeZoneProvider#DATA} calling a method with each record. {@link walkingkooka.j2cl.java.util.timezone.DefaultTimeZone}
+ * Consumes {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider#DATA} calling a method with each record. {@link DefaultTimeZone}
  * and a ZoneRUleProvider in j2cl-java-time will sub class. This class exists in this package so it is not shaded.
  */
-public abstract class TimeZoneProviderReader<R> {
+abstract class TimeZoneProviderReader<R> {
 
-    protected TimeZoneProviderReader() {
+    TimeZoneProviderReader() {
         super();
     }
 
-    public final void read(final String data) {
+    final void read(final String data) {
         try {
             this.read0(StringDataInputDataOutput.input(data));
         } catch (final IOException cause) {
@@ -94,7 +94,7 @@ public abstract class TimeZoneProviderReader<R> {
         }
     }
 
-    public abstract R readZoneRules(final DataInput data) throws IOException;
+    abstract R readZoneRules(final DataInput data) throws IOException;
 
     private static <T> MultiLocaleValue<T> multiLocaleValue(final T calendar,
                                                             final Predicate<Locale> locales) {
@@ -106,9 +106,9 @@ public abstract class TimeZoneProviderReader<R> {
     /**
      * A {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider} record.
      */
-    public abstract void record(final String id,
-                                final int rawOffset,
-                                final R zoneRules,
-                                final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
-                                final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales);
+    abstract void record(final String id,
+                         final int rawOffset,
+                         final R zoneRules,
+                         final List<MultiLocaleValue<TimeZoneCalendar>> timeZoneCalendar,
+                         final List<MultiLocaleValue<TimeZoneDisplay>> allDisplayLocales);
 }
