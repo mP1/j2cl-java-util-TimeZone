@@ -26,7 +26,6 @@ import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
 import walkingkooka.j2cl.locale.TimeZoneOffsetAndDaylightSavings;
-import walkingkooka.j2cl.locale.org.threeten.bp.zone.StandardZoneRules;
 
 import java.io.DataInput;
 import java.io.IOException;
