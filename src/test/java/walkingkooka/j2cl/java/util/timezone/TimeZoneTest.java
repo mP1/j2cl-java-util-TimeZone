@@ -20,9 +20,14 @@ package walkingkooka.j2cl.java.util.timezone;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.j2cl.locale.Calendar;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.javashader.ShadedClassTesting;
+import walkingkooka.predicate.Predicates;
+import walkingkooka.reflect.PackageName;
 import walkingkooka.text.CharSequences;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -32,7 +37,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -41,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
+public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements ShadedClassTesting<TimeZone> {
 
     // constants........................................................................................................
 
@@ -285,8 +292,41 @@ public final class TimeZoneTest  extends TimeZoneTestCase<TimeZone> {
         return TimeZone.class;
     }
 
+    // ShadedClassTesting................................................................................................
+
     @Override
-    public final JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
+    public final Predicate<Constructor> requiredConstructors() {
+        return Predicates.always();
+    }
+
+    @Override
+    public final Predicate<Method> requiredMethods() {
+        return (m) -> {
+            final boolean required;
+
+            switch (m.getName()) {
+                case "clone":
+                case "getRawOffset":
+                case "observesDaylightTime":
+                    required = false;
+                    break;
+                default:
+                    required = true;
+                    break;
+            }
+
+            return required;
+        };
+    }
+
+    @Override
+    public final Predicate<Field> requiredFields() {
+        return Predicates.always();
+    }
+
+    @Override
+    public final UnaryOperator<Class<?>> typeMapper() {
+        return ShadedClassTesting.typeMapper(PackageName.from(this.getClass().getPackage()),
+                PackageName.from(java.util.TimeZone.class.getPackage()));
     }
 }
