@@ -47,18 +47,7 @@ A default `java.util.TimeZone` is required and must appear within the j2cl-maven
 ## Transpiling
 
 The `j2cl-maven-plugin` will shade the source during the transpile phase, so `TimeZone`
-is available to the runtime as `java.util.TimeZone` and something similar for `SimpleTimeZone`. 
-
-
-
-## Getting the source
-
-You can either download the source using the "ZIP" button at the top
-of the github page, or you can make a clone using git:
-
-```
-git clone git://github.com/mP1/j2cl-java-util-TimeZone.git
-```
+is available to the runtime as `java.util.TimeZone` and something similar for `SimpleTimeZone`.
 
 
 
