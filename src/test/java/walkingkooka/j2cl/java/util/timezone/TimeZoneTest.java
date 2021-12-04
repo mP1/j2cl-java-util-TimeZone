@@ -43,8 +43,6 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -54,12 +52,12 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
 
     @Test
     public void testShort() {
-        assertEquals(java.util.TimeZone.SHORT, TimeZone.SHORT);
+        this.checkEquals(java.util.TimeZone.SHORT, TimeZone.SHORT);
     }
 
     @Test
     public void testLong() {
-        assertEquals(java.util.TimeZone.LONG, TimeZone.LONG);
+        this.checkEquals(java.util.TimeZone.LONG, TimeZone.LONG);
     }
 
     // getAvailableIDs..................................................................................................
@@ -69,7 +67,7 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
         final String[] ids = TimeZone.getAvailableIDs();
         final Set<String> uniques = new HashSet<>(Arrays.asList(ids));
 
-        assertEquals(uniques.size(),
+        this.checkEquals(uniques.size(),
                 ids.length,
                 () -> "ids contains duplicates ");
     }
@@ -80,14 +78,14 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
     public void testGetAvailableIDsWithOffset() {
         final int offset = 10 * 60 * 60 * 1000;
         final String[] ids = TimeZone.getAvailableIDs(offset);
-        assertNotEquals(0, ids.length, "expected some ids with offset " + offset);
+        this.checkNotEquals(0, ids.length, "expected some ids with offset " + offset);
 
         final List<TimeZone> timeZones = Arrays.stream(ids)
                 .map(TimeZone::getTimeZone)
                 .filter(t -> t.getRawOffset() == offset)
                 .collect(Collectors.toList());
 
-        assertNotEquals(Lists.empty(),
+        this.checkNotEquals(Lists.empty(),
                 timeZones,
                 () -> "some ids have the wrong offset");
     }
@@ -108,14 +106,14 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
 
     @Test
     public void testGetTimeZoneUnknownNull() {
-        assertEquals(null, TimeZone.getTimeZone("unknown123"));
+        this.checkEquals(null, TimeZone.getTimeZone("unknown123"));
     }
 
     @Test
     public void testGetTimeZone() {
         final String hobart = "Australia/Hobart";
         final TimeZone timeZone = TimeZone.getTimeZone(hobart);
-        assertEquals(hobart, timeZone.getID(), "id");
+        this.checkEquals(hobart, timeZone.getID(), "id");
     }
 
     // default .........................................................................................................
@@ -143,7 +141,7 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
         TimeZone.DEFAULT = null;
 
         final TimeZone timeZone = TimeZone.getDefault();
-        assertEquals(hobart, timeZone.getID(), "id");
+        this.checkEquals(hobart, timeZone.getID(), "id");
     }
 
     @Test
@@ -197,7 +195,7 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
 
         final long jreRawOffset = jreTimeZone.getRawOffset();
         final TimeZone emulatedTimeZone = TimeZone.getTimeZone(timeZoneId);
-        assertNotEquals(null,
+        this.checkNotEquals(null,
                 emulatedTimeZone,
                 () -> "Unknown timeZoneId: " + CharSequences.quoteAndEscape(timeZoneId));
 
@@ -220,7 +218,7 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
                     " jreRawOffset: " + duration(jreRawOffset).toString().substring(2) +
                     " getOffset " + year + "/" + month + "/" + day + " " + hours + ":" + minutes + " dow: " + dayOfWeek + " date: " + date;
 
-            assertEquals(duration(jreOffset),
+            this.checkEquals(duration(jreOffset),
                     duration(emulatedOffset),
                     message);
         }
@@ -280,7 +278,7 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
                                     final boolean daylight,
                                     final Locale locale) {
         final java.util.TimeZone real = java.util.TimeZone.getTimeZone(timeZone.getID());
-        assertEquals(real.getDisplayName(daylight, style, locale),
+        this.checkEquals(real.getDisplayName(daylight, style, locale),
                 timeZone.getDisplayName(daylight, style, locale),
                 () -> "getDisplayName daylight=" + daylight + " style=" + (TimeZone.SHORT == style ? "SHORT" : "LONG") + " locale=" + locale);
     }

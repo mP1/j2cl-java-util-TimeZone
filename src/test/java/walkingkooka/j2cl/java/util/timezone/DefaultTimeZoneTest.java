@@ -33,7 +33,6 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -55,12 +54,13 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
 
     @Test
     public void testTimeZoneProviderLocalesFilter() {
-        assertEquals(",EN-*,DE-DE", TimeZoneProvider.ANNOTATION_PROCESSOR_LOCALES_FILTER);
+        this.checkEquals(",EN-*,DE-DE", TimeZoneProvider.ANNOTATION_PROCESSOR_LOCALES_FILTER);
     }
 
     @Test
     public void testTimeZoneProviderSelectedLocales() {
-        assertEquals(Lists.empty(),
+        this.checkEquals(
+                Lists.empty(),
                 Arrays.stream(TimeZoneProvider.SELECTED_LOCALES.split(","))
                         .filter(tag -> {
                             return (false == (tag.startsWith("en-") || tag.equals("de-DE")));
@@ -95,8 +95,8 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
             final TimeZoneCalendar data = defaultTimeZone.timeZoneCalendar(locale);
 
             final Calendar calendar = Calendar.getInstance(jreTimeZone, locale);
-            assertEquals(calendar.getFirstDayOfWeek(), data.firstDayOfWeek, () -> "firstDayOfWeek timeZone: " + timeZoneId + " locale: " + locale);
-            assertEquals(calendar.getMinimalDaysInFirstWeek(), data.minimalDaysInFirstWeek, () -> "minimalDaysInFirstWeek timeZone: " + timeZoneId + " locale: " + locale);
+            this.checkEquals(calendar.getFirstDayOfWeek(), data.firstDayOfWeek, () -> "firstDayOfWeek timeZone: " + timeZoneId + " locale: " + locale);
+            this.checkEquals(calendar.getMinimalDaysInFirstWeek(), data.minimalDaysInFirstWeek, () -> "minimalDaysInFirstWeek timeZone: " + timeZoneId + " locale: " + locale);
         }
     }
 
@@ -178,7 +178,7 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
                                        final int day,
                                        final int dayOfWeek,
                                        final int time) {
-        assertEquals(java.util.TimeZone.getTimeZone(timeZone)
+        this.checkEquals(java.util.TimeZone.getTimeZone(timeZone)
                         .getOffset(era, year, month, day, dayOfWeek, time),
                 TimeZone.getTimeZone(timeZone)
                         .getOffset(era, year, month, day, dayOfWeek, time),
@@ -255,7 +255,7 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
                                          final boolean daylight,
                                          final int style,
                                          final Locale locale) {
-        assertEquals(jre.getDisplayName(daylight, style, locale),
+        this.checkEquals(jre.getDisplayName(daylight, style, locale),
                 emulated.getDisplayName(daylight, style, locale),
                 () -> "getDisplayName zoneId=" + emulated.getID() + " daylight=" + daylight + " style=" + (java.util.TimeZone.SHORT == style ? "SHORT" : "LONG") + " locale=" + locale);
     }
@@ -273,7 +273,7 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
     }
 
     private void observesDaylightTimeAndCheck(final String zoneId) throws Exception {
-        assertEquals(java.util.TimeZone.getTimeZone(zoneId).observesDaylightTime(),
+        this.checkEquals(java.util.TimeZone.getTimeZone(zoneId).observesDaylightTime(),
                 ZoneRules.of(ZoneId.of(zoneId)).observesDaylightTime(),
                 () -> "observesDaylightTime for zoneId " + CharSequences.quoteAndEscape(zoneId));
     }
@@ -291,7 +291,7 @@ public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
     }
 
     private void useDaylightTimeAndCheck(final String zoneId) throws Exception {
-        assertEquals(java.util.TimeZone.getTimeZone(zoneId).useDaylightTime(),
+        this.checkEquals(java.util.TimeZone.getTimeZone(zoneId).useDaylightTime(),
                 ZoneRules.of(ZoneId.of(zoneId)).useDaylightTime(),
                 () -> "useDaylightTime for zoneId " + CharSequences.quoteAndEscape(zoneId));
     }
