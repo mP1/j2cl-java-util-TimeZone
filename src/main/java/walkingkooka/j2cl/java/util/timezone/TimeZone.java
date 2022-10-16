@@ -17,7 +17,6 @@
 
 package walkingkooka.j2cl.java.util.timezone;
 
-import walkingkooka.j2cl.locale.LocaleAware;
 import walkingkooka.text.CharSequences;
 
 import java.util.Date;
