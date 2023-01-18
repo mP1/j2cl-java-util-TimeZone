@@ -293,7 +293,7 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
     // ShadedClassTesting................................................................................................
 
     @Override
-    public final Predicate<Constructor> requiredConstructors() {
+    public final Predicate<Constructor<?>> requiredConstructors() {
         return Predicates.always();
     }
 
