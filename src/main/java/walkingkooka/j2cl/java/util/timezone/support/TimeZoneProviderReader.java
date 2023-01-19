@@ -21,9 +21,9 @@ import walkingkooka.collect.list.Lists;
 import walkingkooka.j2cl.java.io.string.StringDataInputDataOutput;
 import walkingkooka.j2cl.java.util.locale.support.LocaleSupport;
 import walkingkooka.j2cl.java.util.locale.support.MultiLocaleValue;
+import walkingkooka.j2cl.java.util.timezone.generated.TimeZoneProvider;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
 import walkingkooka.j2cl.locale.TimeZoneDisplay;
-import walkingkooka.j2cl.locale.TimeZoneOffsetAndDaylightSavings;
 import walkingkooka.predicate.Predicates;
 
 import java.io.DataInput;
@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * Consumes {@link walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider#DATA} calling a method with each record. {@link walkingkooka.j2cl.java.util.timezone.DefaultTimeZone}
+ * Consumes {@link TimeZoneProvider#DATA} calling a method with each record. {@link walkingkooka.j2cl.java.util.timezone.DefaultTimeZone}
  * and a ZoneRuleProvider in j2cl-java-time will sub class.
  */
 public abstract class TimeZoneProviderReader<T> {

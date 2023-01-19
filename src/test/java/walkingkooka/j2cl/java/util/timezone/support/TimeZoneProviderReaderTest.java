@@ -56,7 +56,7 @@ public final class TimeZoneProviderReaderTest implements ClassTesting<TimeZonePr
             }
 
             private final Set<String> ids = Sets.ordered();
-        }.read(walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider.DATA);
+        }.read(walkingkooka.j2cl.java.util.timezone.generated.TimeZoneProvider.DATA);
     }
 
     @Override
