@@ -71,7 +71,7 @@ final class DefaultTimeZone extends TimeZone implements HasTimeZoneCalendar {
                         timeZoneCalendar,
                         allDisplayLocales);
             }
-        }.read(walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider.DATA);
+        }.read(walkingkooka.j2cl.java.util.timezone.generated.TimeZoneProvider.DATA);
     }
 
     /**

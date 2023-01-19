@@ -20,7 +20,7 @@ package walkingkooka.j2cl.java.util.timezone;
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.list.Lists;
-import walkingkooka.j2cl.java.util.timezone.support.TimeZoneProvider;
+import walkingkooka.j2cl.java.util.timezone.generated.TimeZoneProvider;
 import walkingkooka.j2cl.java.util.timezone.zonerulesreader.org.threeten.bp.zone.ZoneRules;
 import walkingkooka.j2cl.locale.GregorianCalendar;
 import walkingkooka.j2cl.locale.TimeZoneCalendar;
