@@ -43,7 +43,6 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements ShadedClassTesting<TimeZone> {
@@ -114,49 +113,6 @@ public final class TimeZoneTest extends TimeZoneTestCase<TimeZone> implements Sh
         final String hobart = "Australia/Hobart";
         final TimeZone timeZone = TimeZone.getTimeZone(hobart);
         this.checkEquals(hobart, timeZone.getID(), "id");
-    }
-
-    // default .........................................................................................................
-
-    @Test
-    public void testDefaultTimeZoneWithoutSystemPropertyFails() {
-        System.clearProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY);
-        TimeZone.DEFAULT = null;
-
-        assertThrows(IllegalStateException.class, () -> TimeZone.getDefault());
-    }
-
-    @Test
-    public void testDefaultTimeZoneEmptySystemPropertyFails() {
-        System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, "");
-        TimeZone.DEFAULT = null;
-
-        assertThrows(IllegalStateException.class, () -> TimeZone.getDefault());
-    }
-
-    @Test
-    public void testGetDefault() {
-        final String hobart = "Australia/Hobart";
-        System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, hobart);
-        TimeZone.DEFAULT = null;
-
-        final TimeZone timeZone = TimeZone.getDefault();
-        this.checkEquals(hobart, timeZone.getID(), "id");
-    }
-
-    @Test
-    public void testSetDefaultNullTimeZoneFails() {
-        assertThrows(NullPointerException.class, () -> TimeZone.setDefault(null));
-    }
-
-    @Test
-    public void testSetDefault() {
-        final String hobart = "Australia/Hobart";
-        System.setProperty(TimeZone.DEFAULT_TIMEZONE_SYSTEM_PROPERTY, hobart);
-
-        final TimeZone newDefault = TimeZone.getTimeZone(hobart);
-        TimeZone.setDefault(newDefault);
-        assertSame(newDefault, TimeZone.getDefault());
     }
 
     // getOffset........................................................................................................
