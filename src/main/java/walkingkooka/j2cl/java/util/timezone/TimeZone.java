@@ -17,6 +17,7 @@
 
 package walkingkooka.j2cl.java.util.timezone;
 
+import walkingkooka.j2cl.java.util.timezone.generated.TimeZoneProvider;
 import walkingkooka.text.CharSequences;
 
 import java.util.Date;
@@ -69,7 +70,7 @@ public abstract class TimeZone {
      */
     public static synchronized TimeZone getDefault() {
         if (null == DEFAULT) {
-            DEFAULT = getTimeZoneFromSystemProperty();
+            DEFAULT = getTimeZone(TimeZoneProvider.DEFAULT_TIMEZONE);
         }
         return DEFAULT;
     }
@@ -90,16 +91,6 @@ public abstract class TimeZone {
 
     // @VisibleForTesting
     static TimeZone DEFAULT;
-
-    static String DEFAULT_TIMEZONE_SYSTEM_PROPERTY = "walkingkooka.j2cl.java.util.timezone.TimeZone.DEFAULT";
-
-    private static TimeZone getTimeZoneFromSystemProperty() {
-        final String defaultTimeZone = System.getProperty("walkingkooka.j2cl.java.util.timezone.TimeZone.DEFAULT");// j2cl requires literal
-        if (CharSequences.isNullOrEmpty(defaultTimeZone)) {
-            throw new IllegalStateException("Default timezone system property " + CharSequences.quote(DEFAULT_TIMEZONE_SYSTEM_PROPERTY) + " missing");
-        }
-        return getTimeZone(defaultTimeZone);
-    }
 
     // ctor.............................................................................................................
 

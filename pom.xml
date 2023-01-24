@@ -129,7 +129,7 @@
         <dependency>
             <groupId>walkingkooka</groupId>
             <artifactId>j2cl-java-util-TimeZone-annotation-processor</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>99.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -172,7 +172,9 @@
                     <target>9</target>
                     <compilerArgs>
                         <arg>-Awalkingkooka.j2cl.java.util.Locale=,EN-*,DE-DE</arg>
+                        <arg>-Awalkingkooka.j2cl.java.util.Locale.DEFAULT=en-AU</arg>
                         <arg>-Awalkingkooka.j2cl.java.util.TimeZone=Australia/*</arg>
+                        <arg>-Awalkingkooka.j2cl.java.util.TimeZone.DEFAULT=Australia/Sydney</arg>
                         <arg>-Awalkingkooka.j2cl.locale.Logging=SLASH_SLASH_COMMENTS</arg>
                     </compilerArgs>
                     <showWarnings>true</showWarnings>

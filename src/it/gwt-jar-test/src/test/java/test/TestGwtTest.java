@@ -19,6 +19,16 @@ public class TestGwtTest extends GWTTestCase {
         );
     }
 
+    public void testDefaultTimeZone() {
+        final String hobart = "Australia/Hobart";
+        final TimeZone timeZone = TimeZone.getDefault();
+
+        assertEquals(
+                hobart,
+                timeZone.getID()
+        );
+    }
+
     public void testAustraliaHobartTimeZone() {
         final String hobart = "Australia/Hobart";
         final TimeZone timeZone = TimeZone.getTimeZone(hobart);
