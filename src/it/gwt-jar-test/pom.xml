@@ -54,9 +54,9 @@
                     <target>1.8</target>
                     <compilerArgs>
                         <param>-Awalkingkooka.j2cl.java.util.Locale=,EN-*,DE-DE</param>
-                        <param>-Awalkingkooka.j2cl.java.util.locale.Locale.DEFAULT=EN-AU</param>
+                        <param>-Awalkingkooka.j2cl.java.util.Locale.DEFAULT=en-AU</param>
                         <param>-Awalkingkooka.j2cl.java.util.TimeZone=Australia/*,Europe/*</param>
-                        <param>-Awalkingkooka.j2cl.java.util.timezone.TimeZone.DEFAULT=Australia/Hobart</param>
+                        <param>-Awalkingkooka.j2cl.java.util.TimeZone.DEFAULT=Australia/Hobart</param>
                         <param>-Awalkingkooka.j2cl.locale.Logging=SLASH_SLASH_COMMENTS</param>
                     </compilerArgs>
                     <showWarnings>true</showWarnings>
