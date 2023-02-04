@@ -311,17 +311,6 @@
             </plugin>
 
             <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <excludes>
-                        <exclude>java/**</exclude>
-                        <exclude>**/generated/**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
@@ -334,16 +323,6 @@
                         <scope>compile</scope>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <excludes>
-                        <exclude>walkingkooka/j2cl/java/util/locale/generated/*</exclude>
-                        <exclude>walkingkooka/j2cl/java/util/timezone/generated/*</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
 
             <plugin>
