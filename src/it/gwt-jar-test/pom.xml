@@ -24,6 +24,12 @@
 
         <dependency>
             <groupId>walkingkooka</groupId>
+            <artifactId>gwt-java-util-Locale</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>walkingkooka</groupId>
             <artifactId>gwt-java-util-TimeZone</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -52,12 +58,32 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>walkingkooka</groupId>
+                            <artifactId>j2cl-java-util-currency-annotation-processor</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                        </path>
+
+                        <path>
+                            <groupId>walkingkooka</groupId>
+                            <artifactId>j2cl-java-util-Locale-annotation-processor</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                        </path>
+
+                        <path>
+                            <groupId>walkingkooka</groupId>
+                            <artifactId>j2cl-java-util-TimeZone-annotation-processor</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                        </path>
+                    </annotationProcessorPaths>
                     <compilerArgs>
-                        <param>-Awalkingkooka.j2cl.java.util.Locale=,EN-*,DE-DE</param>
-                        <param>-Awalkingkooka.j2cl.java.util.Locale.DEFAULT=en-AU</param>
-                        <param>-Awalkingkooka.j2cl.java.util.TimeZone=Australia/*,Europe/*</param>
-                        <param>-Awalkingkooka.j2cl.java.util.TimeZone.DEFAULT=Australia/Hobart</param>
-                        <param>-Awalkingkooka.j2cl.locale.Logging=SLASH_SLASH_COMMENTS</param>
+                        <arg>-Awalkingkooka.j2cl.java.util.Currency=XXX</arg>
+                        <arg>-Awalkingkooka.j2cl.java.util.Locale=,EN-*,DE-DE</arg>
+                        <arg>-Awalkingkooka.j2cl.java.util.Locale.DEFAULT=en-AU</arg>
+                        <arg>-Awalkingkooka.j2cl.java.util.TimeZone=Australia/*,Europe/*</arg>
+                        <arg>-Awalkingkooka.j2cl.java.util.TimeZone.DEFAULT=Australia/Hobart</arg>
+                        <arg>-Awalkingkooka.j2cl.locale.Logging=SLASH_SLASH_COMMENTS</arg>
                     </compilerArgs>
                     <showWarnings>true</showWarnings>
                 </configuration>
