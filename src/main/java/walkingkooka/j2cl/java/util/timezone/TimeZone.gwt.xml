@@ -4,5 +4,8 @@
     <inherits name="walkingkooka.j2cl.java.util.timezone.zonerulesreader.ZoneRulesReader"/>
 
     <super-source path="super"/>
-    <source path=""/>
+    <source path="">
+        <exclude name="super/**"/>
+    </source>
+
 </module>
