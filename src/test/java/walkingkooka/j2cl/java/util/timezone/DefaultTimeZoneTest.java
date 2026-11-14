@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class DefaultTimeZoneTest extends TimeZoneTestCase<DefaultTimeZone>
-        implements ToStringTesting<DefaultTimeZone> {
+        implements ToStringTesting {
 
     @Test
     public void testAllConstructorsVisibility() {
